@@ -1,0 +1,224 @@
+{
+  "starterWardrobe": [
+    {
+      "category": "T-shirts",
+      "name": "3-5 plain t-shirts (white/black/grey/navy)",
+      "notes": "Casual essentials"
+    },
+    {
+      "category": "Shirts",
+      "name": "2-3 polos or casual shirts (oxford button-down works best)",
+      "notes": "Casual essentials"
+    },
+    {
+      "category": "Pants",
+      "name": "1-2 jeans (dark blue, black)",
+      "notes": "Casual essentials"
+    },
+    {
+      "category": "Pants",
+      "name": "1-2 chinos (navy, tan/stone)",
+      "notes": "Casual essentials"
+    },
+    {
+      "category": "Layers",
+      "name": "1 hoodie/crewneck (neutral)",
+      "notes": "Casual essentials"
+    },
+    {
+      "category": "Layers",
+      "name": "1 casual jacket (bomber/denim/field jacket—neutral)",
+      "notes": "Casual essentials"
+    },
+    {
+      "category": "Shoes",
+      "name": "Sneakers: 1 clean pair (white or black)",
+      "notes": "Casual essentials"
+    },
+    {
+      "category": "Accessories",
+      "name": "Casual belt (simple)",
+      "notes": "Casual essentials"
+    },
+    {
+      "category": "Shirts",
+      "name": "2 oxford shirts (white, light blue)",
+      "notes": "Professional essentials"
+    },
+    {
+      "category": "Shirts",
+      "name": "1-2 dress shirts (if you need them)",
+      "notes": "Professional essentials"
+    },
+    {
+      "category": "Layers",
+      "name": "1 blazer OR structured jacket (navy/charcoal)",
+      "notes": "Professional essentials"
+    },
+    {
+      "category": "Pants",
+      "name": "1 pair dress trousers (charcoal/navy)",
+      "notes": "Professional essentials"
+    },
+    {
+      "category": "Shoes",
+      "name": "1 pair smart shoes (loafers/derby—black or dark brown)",
+      "notes": "Professional essentials"
+    },
+    {
+      "category": "Accessories",
+      "name": "1 smart belt matching shoes",
+      "notes": "Professional essentials"
+    },
+    {
+      "category": "Layers",
+      "name": "1 coat (wool coat or simple trench for cold seasons)",
+      "notes": "Professional essentials"
+    },
+    {
+      "category": "Underwear",
+      "name": "10-14 underwear (same brand/style)",
+      "notes": "Underwear / socks"
+    },
+    {
+      "category": "Socks",
+      "name": "10-14 socks (same brand/style: black/white)",
+      "notes": "Underwear / socks"
+    },
+    {
+      "category": "Socks",
+      "name": "2-4 \"nice\" socks (subtle patterns for office)",
+      "notes": "Underwear / socks"
+    },
+    {
+      "category": "Accessories",
+      "name": "One watch OR one simple chain OR one ring (keep it minimal)",
+      "notes": "Optional \"one statement\""
+    }
+  ],
+  "drawerCategories": [
+    "T-shirts",
+    "Shirts (button-downs)",
+    "Pants (jeans/chinos/trousers)",
+    "Layers (hoodies/jackets)",
+    "Gym",
+    "Sleepwear",
+    "Accessories (belts, watch, etc.)",
+    "Underwear",
+    "Socks"
+  ],
+  "shoppingEssentials": [
+    {
+      "name": "Eggs",
+      "category": "Protein",
+      "quantity": 1,
+      "priority": 3,
+      "notes": "Stock these always"
+    },
+    {
+      "name": "Rice/pasta",
+      "category": "Grains",
+      "quantity": 1,
+      "priority": 3,
+      "notes": "Stock these always"
+    },
+    {
+      "name": "Frozen vegetables",
+      "category": "Vegetables",
+      "quantity": 1,
+      "priority": 3,
+      "notes": "Stock these always"
+    },
+    {
+      "name": "Protein (chicken/tuna/mince)",
+      "category": "Protein",
+      "quantity": 1,
+      "priority": 3,
+      "notes": "Stock these always"
+    },
+    {
+      "name": "Yogurt + fruit",
+      "category": "Dairy/Fruit",
+      "quantity": 1,
+      "priority": 2,
+      "notes": "Stock these always"
+    },
+    {
+      "name": "2 sauces (soy/hot sauce)",
+      "category": "Condiments",
+      "quantity": 1,
+      "priority": 2,
+      "notes": "Stock these always"
+    }
+  ],
+  "wardrobeBuyOrder": [
+    {
+      "name": "Clean sneakers",
+      "category": "Shoes",
+      "quantity": 1,
+      "priority": 5,
+      "notes": "Priority buy order: 1"
+    },
+    {
+      "name": "Dark jeans + chinos",
+      "category": "Pants",
+      "quantity": 1,
+      "priority": 5,
+      "notes": "Priority buy order: 2"
+    },
+    {
+      "name": "Plain tees",
+      "category": "T-shirts",
+      "quantity": 1,
+      "priority": 4,
+      "notes": "Priority buy order: 3"
+    },
+    {
+      "name": "OCBD shirts",
+      "category": "Shirts",
+      "quantity": 1,
+      "priority": 4,
+      "notes": "Priority buy order: 4"
+    },
+    {
+      "name": "Simple jacket",
+      "category": "Layers",
+      "quantity": 1,
+      "priority": 3,
+      "notes": "Priority buy order: 5"
+    },
+    {
+      "name": "Smart shoes + belt",
+      "category": "Shoes/Accessories",
+      "quantity": 1,
+      "priority": 3,
+      "notes": "Priority buy order: 6"
+    },
+    {
+      "name": "Blazer (if needed)",
+      "category": "Layers",
+      "quantity": 1,
+      "priority": 2,
+      "notes": "Priority buy order: 7"
+    }
+  ],
+  "dailyChecklist": {
+    "morning": [
+      "Brush teeth + tongue",
+      "Deodorant",
+      "Face: rinse/cleanse + moisturize + SPF",
+      "Hair: quick style (1 product)",
+      "Clean clothes (underwear/socks guaranteed)",
+      "Shoes check (clean-ish)",
+      "Pocket check: keys/wallet/phone"
+    ],
+    "night": [
+      "Brush teeth + (floss if you can)",
+      "Face: cleanse + moisturize",
+      "Clothes into basket / hung up",
+      "10-min room reset (timer)",
+      "Outfit picked for tomorrow"
+    ]
+  }
+}
+

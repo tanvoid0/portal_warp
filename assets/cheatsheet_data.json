@@ -1,0 +1,529 @@
+{
+  "starterWardrobe": [
+    {
+      "category": "T-shirts",
+      "name": "Plain t-shirts",
+      "targetQuantity": 5,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "custom",
+        "customUnit": "t-shirts"
+      },
+      "location": "",
+      "notes": "Casual essentials - white/black/grey/navy"
+    },
+    {
+      "category": "Shirts",
+      "name": "Polos or casual shirts",
+      "targetQuantity": 3,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "custom",
+        "customUnit": "shirts"
+      },
+      "location": "",
+      "notes": "Oxford button-down works best"
+    },
+    {
+      "category": "Pants",
+      "name": "Jeans",
+      "targetQuantity": 2,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "pieces"
+      },
+      "location": "",
+      "notes": "Dark blue, black"
+    },
+    {
+      "category": "Pants",
+      "name": "Chinos",
+      "targetQuantity": 2,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "pieces"
+      },
+      "location": "",
+      "notes": "Navy, tan/stone"
+    },
+    {
+      "category": "Layers",
+      "name": "Hoodie/crewneck",
+      "targetQuantity": 1,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "pieces"
+      },
+      "location": "",
+      "notes": "Neutral color"
+    },
+    {
+      "category": "Layers",
+      "name": "Casual jacket",
+      "targetQuantity": 1,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "pieces"
+      },
+      "location": "",
+      "notes": "Bomber/denim/field jacket - neutral"
+    },
+    {
+      "category": "Shoes",
+      "name": "Sneakers",
+      "targetQuantity": 1,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "pairs"
+      },
+      "location": "",
+      "notes": "Clean pair - white or black"
+    },
+    {
+      "category": "Accessories",
+      "name": "Casual belt",
+      "targetQuantity": 1,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "pieces"
+      },
+      "location": "",
+      "notes": "Simple design"
+    },
+    {
+      "category": "Shirts",
+      "name": "Oxford shirts",
+      "targetQuantity": 2,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "custom",
+        "customUnit": "shirts"
+      },
+      "location": "",
+      "notes": "White, light blue - professional essentials"
+    },
+    {
+      "category": "Shirts",
+      "name": "Dress shirts",
+      "targetQuantity": 2,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "custom",
+        "customUnit": "shirts"
+      },
+      "location": "",
+      "notes": "If you need them for work"
+    },
+    {
+      "category": "Layers",
+      "name": "Blazer or structured jacket",
+      "targetQuantity": 1,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "pieces"
+      },
+      "location": "",
+      "notes": "Navy/charcoal - professional"
+    },
+    {
+      "category": "Pants",
+      "name": "Dress trousers",
+      "targetQuantity": 1,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "pairs"
+      },
+      "location": "",
+      "notes": "Charcoal/navy"
+    },
+    {
+      "category": "Shoes",
+      "name": "Smart shoes",
+      "targetQuantity": 1,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "pairs"
+      },
+      "location": "",
+      "notes": "Loafers/derby - black or dark brown"
+    },
+    {
+      "category": "Accessories",
+      "name": "Smart belt",
+      "targetQuantity": 1,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "pieces"
+      },
+      "location": "",
+      "notes": "Matching shoes color"
+    },
+    {
+      "category": "Layers",
+      "name": "Coat",
+      "targetQuantity": 1,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "pieces"
+      },
+      "location": "",
+      "notes": "Wool coat or simple trench for cold seasons"
+    },
+    {
+      "category": "Underwear",
+      "name": "Underwear",
+      "targetQuantity": 14,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "pieces"
+      },
+      "location": "",
+      "notes": "Same brand/style for consistency"
+    },
+    {
+      "category": "Socks",
+      "name": "Socks",
+      "targetQuantity": 14,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "pairs"
+      },
+      "location": "",
+      "notes": "Same brand/style: black/white"
+    },
+    {
+      "category": "Socks",
+      "name": "Nice socks",
+      "targetQuantity": 4,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "pairs"
+      },
+      "location": "",
+      "notes": "Subtle patterns for office"
+    },
+    {
+      "category": "Accessories",
+      "name": "Watch or chain or ring",
+      "targetQuantity": 1,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "pieces"
+      },
+      "location": "",
+      "notes": "One statement piece - keep it minimal"
+    }
+  ],
+  "drawerCategories": [
+    "T-shirts",
+    "Shirts (button-downs)",
+    "Pants (jeans/chinos/trousers)",
+    "Layers (hoodies/jackets)",
+    "Gym",
+    "Sleepwear",
+    "Accessories (belts, watch, etc.)",
+    "Underwear",
+    "Socks"
+  ],
+  "shoppingEssentials": [
+    {
+      "name": "Eggs",
+      "category": "Protein",
+      "quantity": 1,
+      "unit": {
+        "type": "boxes"
+      },
+      "priority": 3,
+      "notes": "Stock these always"
+    },
+    {
+      "name": "Rice/pasta",
+      "category": "Grains",
+      "quantity": 1,
+      "unit": {
+        "type": "bags"
+      },
+      "priority": 3,
+      "notes": "Stock these always"
+    },
+    {
+      "name": "Frozen vegetables",
+      "category": "Vegetables",
+      "quantity": 1,
+      "unit": {
+        "type": "bags"
+      },
+      "priority": 3,
+      "notes": "Stock these always"
+    },
+    {
+      "name": "Protein (chicken/tuna/mince)",
+      "category": "Protein",
+      "quantity": 1,
+      "unit": {
+        "type": "kg"
+      },
+      "priority": 3,
+      "notes": "Stock these always"
+    },
+    {
+      "name": "Yogurt + fruit",
+      "category": "Dairy/Fruit",
+      "quantity": 1,
+      "unit": {
+        "type": "packs"
+      },
+      "priority": 2,
+      "notes": "Stock these always"
+    },
+    {
+      "name": "Sauces",
+      "category": "Condiments",
+      "quantity": 2,
+      "unit": {
+        "type": "bottles"
+      },
+      "priority": 2,
+      "notes": "Soy/hot sauce - stock these always"
+    },
+    {
+      "name": "Bread",
+      "category": "Grains",
+      "quantity": 1,
+      "unit": {
+        "type": "loaves"
+      },
+      "priority": 2,
+      "notes": "Whole grain preferred"
+    },
+    {
+      "name": "Milk",
+      "category": "Dairy",
+      "quantity": 1,
+      "unit": {
+        "type": "liters"
+      },
+      "priority": 2,
+      "notes": "Or plant-based alternative"
+    },
+    {
+      "name": "Olive oil",
+      "category": "Condiments",
+      "quantity": 1,
+      "unit": {
+        "type": "bottles"
+      },
+      "priority": 2,
+      "notes": "Cooking essential"
+    },
+    {
+      "name": "Salt and pepper",
+      "category": "Condiments",
+      "quantity": 1,
+      "unit": {
+        "type": "packs"
+      },
+      "priority": 1,
+      "notes": "Basic seasoning"
+    }
+  ],
+  "wardrobeBuyOrder": [
+    {
+      "name": "Clean sneakers",
+      "category": "Shoes",
+      "quantity": 1,
+      "unit": {
+        "type": "pairs"
+      },
+      "priority": 5,
+      "notes": "Priority buy order: 1 - Most versatile"
+    },
+    {
+      "name": "Dark jeans",
+      "category": "Pants",
+      "quantity": 1,
+      "unit": {
+        "type": "pieces"
+      },
+      "priority": 5,
+      "notes": "Priority buy order: 2a - Dark blue"
+    },
+    {
+      "name": "Chinos",
+      "category": "Pants",
+      "quantity": 1,
+      "unit": {
+        "type": "pieces"
+      },
+      "priority": 5,
+      "notes": "Priority buy order: 2b - Navy or tan"
+    },
+    {
+      "name": "Plain tees",
+      "category": "T-shirts",
+      "quantity": 5,
+      "unit": {
+        "type": "custom",
+        "customUnit": "t-shirts"
+      },
+      "priority": 4,
+      "notes": "Priority buy order: 3 - White/black/grey/navy"
+    },
+    {
+      "name": "OCBD shirts",
+      "category": "Shirts",
+      "quantity": 2,
+      "unit": {
+        "type": "custom",
+        "customUnit": "shirts"
+      },
+      "priority": 4,
+      "notes": "Priority buy order: 4 - Oxford button-down"
+    },
+    {
+      "name": "Simple jacket",
+      "category": "Layers",
+      "quantity": 1,
+      "unit": {
+        "type": "pieces"
+      },
+      "priority": 3,
+      "notes": "Priority buy order: 5 - Bomber/denim/field jacket"
+    },
+    {
+      "name": "Smart shoes",
+      "category": "Shoes",
+      "quantity": 1,
+      "unit": {
+        "type": "pairs"
+      },
+      "priority": 3,
+      "notes": "Priority buy order: 6a - Loafers/derby"
+    },
+    {
+      "name": "Smart belt",
+      "category": "Accessories",
+      "quantity": 1,
+      "unit": {
+        "type": "pieces"
+      },
+      "priority": 3,
+      "notes": "Priority buy order: 6b - Matching shoes"
+    },
+    {
+      "name": "Blazer",
+      "category": "Layers",
+      "quantity": 1,
+      "unit": {
+        "type": "pieces"
+      },
+      "priority": 2,
+      "notes": "If needed - Priority buy order: 7"
+    }
+  ],
+  "dailyChecklist": {
+    "morning": [
+      {
+        "title": "Brush teeth + tongue",
+        "quantity": 1,
+        "unit": {
+          "type": "count"
+        },
+        "category": "Hygiene"
+      },
+      {
+        "title": "Deodorant",
+        "quantity": 1,
+        "unit": {
+          "type": "count"
+        },
+        "category": "Hygiene"
+      },
+      {
+        "title": "Face: rinse/cleanse + moisturize + SPF",
+        "quantity": 1,
+        "unit": {
+          "type": "count"
+        },
+        "category": "Skincare"
+      },
+      {
+        "title": "Hair: quick style",
+        "quantity": 1,
+        "unit": {
+          "type": "custom",
+          "customUnit": "product"
+        },
+        "category": "Grooming"
+      },
+      {
+        "title": "Clean clothes check",
+        "quantity": 1,
+        "unit": {
+          "type": "count"
+        },
+        "category": "Preparation"
+      },
+      {
+        "title": "Shoes check",
+        "quantity": 1,
+        "unit": {
+          "type": "count"
+        },
+        "category": "Preparation"
+      },
+      {
+        "title": "Pocket check: keys/wallet/phone",
+        "quantity": 3,
+        "unit": {
+          "type": "custom",
+          "customUnit": "items"
+        },
+        "category": "Preparation"
+      }
+    ],
+    "night": [
+      {
+        "title": "Brush teeth + floss",
+        "quantity": 1,
+        "unit": {
+          "type": "count"
+        },
+        "category": "Hygiene"
+      },
+      {
+        "title": "Face: cleanse + moisturize",
+        "quantity": 1,
+        "unit": {
+          "type": "count"
+        },
+        "category": "Skincare"
+      },
+      {
+        "title": "Clothes into basket / hung up",
+        "quantity": 1,
+        "unit": {
+          "type": "count"
+        },
+        "category": "Organization"
+      },
+      {
+        "title": "Room reset",
+        "quantity": 10,
+        "unit": {
+          "type": "custom",
+          "customUnit": "minutes"
+        },
+        "category": "Organization"
+      },
+      {
+        "title": "Outfit picked for tomorrow",
+        "quantity": 1,
+        "unit": {
+          "type": "count"
+        },
+        "category": "Preparation"
+      }
+    ]
+  }
+}

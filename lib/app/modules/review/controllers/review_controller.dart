@@ -1,0 +1,36 @@
+import 'package:get/get.dart';
+import '../../../data/models/weekly_review.dart';
+import '../../../data/repositories/quests_repository.dart';
+import '../../../core/services/review_service.dart';
+
+class ReviewController extends GetxController {
+  final QuestsRepository _questsRepo = QuestsRepository();
+  late final ReviewService _reviewService;
+
+  @override
+  void onInit() {
+    super.onInit();
+    _reviewService = ReviewService(_questsRepo);
+    _loadWeeklyReview();
+  }
+
+  final weeklyReview = WeeklyReview(
+    weekStart: DateTime.now(),
+  ).obs;
+  final isLoading = true.obs;
+
+  Future<void> _loadWeeklyReview() async {
+    isLoading.value = true;
+    try {
+      // Get the start of the current week (Monday)
+      final now = DateTime.now();
+      final daysFromMonday = now.weekday - 1;
+      final weekStart = now.subtract(Duration(days: daysFromMonday));
+      final weekStartOnly = DateTime(weekStart.year, weekStart.month, weekStart.day);
+
+      weeklyReview.value = await _reviewService.generateWeeklyReview(weekStartOnly);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+}
