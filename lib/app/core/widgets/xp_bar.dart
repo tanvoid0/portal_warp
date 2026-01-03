@@ -49,7 +49,7 @@ class XPBar extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(height / 2),
-                gradient: DesignTokens.questGradient,
+                gradient: DesignTokens.questGradient(context),
               ),
             )
                 .animate()

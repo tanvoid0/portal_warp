@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'app_theme.dart';
 
 /// Design tokens for Portal Warp
 /// Provides consistent spacing, radii, shadows, gradients, and text styles
@@ -16,112 +17,140 @@ class DesignTokens {
   static const double radiusL = 24.0;
   static const double radiusXL = 32.0;
 
-  // Shadows - soft, wide blur
-  static List<BoxShadow> get softShadow => [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.08),
-          blurRadius: 24,
-          offset: const Offset(0, 4),
-          spreadRadius: 0,
-        ),
-      ];
+  // Theme-aware shadows
+  static List<BoxShadow> softShadow(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return [
+      BoxShadow(
+        color: isDark
+            ? Colors.black.withOpacity(0.3)
+            : Colors.black.withOpacity(0.08),
+        blurRadius: 24,
+        offset: const Offset(0, 4),
+        spreadRadius: 0,
+      ),
+    ];
+  }
 
-  static List<BoxShadow> get mediumShadow => [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.12),
-          blurRadius: 32,
-          offset: const Offset(0, 8),
-          spreadRadius: 0,
-        ),
-      ];
+  static List<BoxShadow> mediumShadow(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return [
+      BoxShadow(
+        color: isDark
+            ? Colors.black.withOpacity(0.4)
+            : Colors.black.withOpacity(0.12),
+        blurRadius: 32,
+        offset: const Offset(0, 8),
+        spreadRadius: 0,
+      ),
+    ];
+  }
 
-  // Feature gradients
-  // Quests = coral
-  static const LinearGradient questGradient = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: [
-      Color(0xFFFF6B6B), // Coral red
-      Color(0xFFFF8E8E), // Light coral
-      Color(0xFFFFB3B3), // Very light coral
-    ],
-  );
 
-  // Drawer = indigo
-  static const LinearGradient drawerGradient = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: [
-      Color(0xFF6B6BFF), // Indigo
-      Color(0xFF8E8EFF), // Light indigo
-      Color(0xFFB3B3FF), // Very light indigo
-    ],
-  );
+  // Theme-aware feature gradients
+  static LinearGradient questGradient(BuildContext context) {
+    final appColors = Theme.of(context).colorScheme.app;
+    return LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        appColors.questPrimary,
+        appColors.questSecondary,
+        appColors.questTertiary,
+      ],
+    );
+  }
 
-  // Shopping = mint
-  static const LinearGradient shoppingGradient = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: [
-      Color(0xFF6BFFB3), // Mint
-      Color(0xFF8EFFC7), // Light mint
-      Color(0xFFB3FFDB), // Very light mint
-    ],
-  );
+  static LinearGradient drawerGradient(BuildContext context) {
+    final appColors = Theme.of(context).colorScheme.app;
+    return LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        appColors.drawerPrimary,
+        appColors.drawerSecondary,
+        appColors.drawerTertiary,
+      ],
+    );
+  }
 
-  // Planning = amber
-  static const LinearGradient planningGradient = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: [
-      Color(0xFFFFB36B), // Amber
-      Color(0xFFFFC78E), // Light amber
-      Color(0xFFFFDBB3), // Very light amber
-    ],
-  );
+  static LinearGradient shoppingGradient(BuildContext context) {
+    final appColors = Theme.of(context).colorScheme.app;
+    return LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        appColors.shoppingPrimary,
+        appColors.shoppingSecondary,
+        appColors.shoppingTertiary,
+      ],
+    );
+  }
 
-  // Focus area gradients
-  // Clothes = coral
-  static const LinearGradient clothesGradient = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: [
-      Color(0xFFFF6B6B),
-      Color(0xFFFF8E8E),
-    ],
-  );
+  static LinearGradient planningGradient(BuildContext context) {
+    final appColors = Theme.of(context).colorScheme.app;
+    return LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        appColors.planningPrimary,
+        appColors.planningSecondary,
+        appColors.planningTertiary,
+      ],
+    );
+  }
 
-  // Skincare = mint
-  static const LinearGradient skincareGradient = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: [
-      Color(0xFF6BFFB3),
-      Color(0xFF8EFFC7),
-    ],
-  );
+  // Theme-aware focus area gradients
+  static LinearGradient clothesGradient(BuildContext context) {
+    final appColors = Theme.of(context).colorScheme.app;
+    return LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        appColors.questPrimary,
+        appColors.questSecondary,
+      ],
+    );
+  }
 
-  // Fitness = indigo
-  static const LinearGradient fitnessGradient = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: [
-      Color(0xFF6B6BFF),
-      Color(0xFF8E8EFF),
-    ],
-  );
+  static LinearGradient skincareGradient(BuildContext context) {
+    final appColors = Theme.of(context).colorScheme.app;
+    return LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        appColors.shoppingPrimary,
+        appColors.shoppingSecondary,
+      ],
+    );
+  }
 
-  // Cooking = amber
-  static const LinearGradient cookingGradient = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: [
-      Color(0xFFFFB36B),
-      Color(0xFFFFC78E),
-    ],
-  );
+  static LinearGradient fitnessGradient(BuildContext context) {
+    final appColors = Theme.of(context).colorScheme.app;
+    return LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        appColors.drawerPrimary,
+        appColors.drawerSecondary,
+      ],
+    );
+  }
 
-  // Text styles
+  static LinearGradient cookingGradient(BuildContext context) {
+    final appColors = Theme.of(context).colorScheme.app;
+    return LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        appColors.planningPrimary,
+        appColors.planningSecondary,
+      ],
+    );
+  }
+
+
+  // Text styles (now theme-aware via AppTheme)
   static const TextStyle headlineStyle = TextStyle(
     fontSize: 32,
     fontWeight: FontWeight.bold,
@@ -150,4 +179,3 @@ class DesignTokens {
     letterSpacing: 0.2,
   );
 }
-

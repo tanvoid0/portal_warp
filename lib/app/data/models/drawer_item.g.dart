@@ -23,6 +23,10 @@ _$DrawerItemImpl _$$DrawerItemImplFromJson(Map<String, dynamic> json) =>
       unit: json['unit'] == null
           ? const ItemUnit()
           : ItemUnit.fromJson(json['unit'] as Map<String, dynamic>),
+      styles: (json['styles'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$DrawerItemImplToJson(_$DrawerItemImpl instance) =>
@@ -37,6 +41,7 @@ Map<String, dynamic> _$$DrawerItemImplToJson(_$DrawerItemImpl instance) =>
       'currentQuantity': instance.currentQuantity,
       'targetQuantity': instance.targetQuantity,
       'unit': instance.unit,
+      'styles': instance.styles,
     };
 
 const _$DrawerStatusEnumMap = {

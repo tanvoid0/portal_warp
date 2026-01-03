@@ -1,4 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Permission to access the internet for loading remote images -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    
     <application
         android:label="portal_warp"
         android:name="${applicationName}"

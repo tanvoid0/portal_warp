@@ -200,18 +200,80 @@ class QuestGenerator {
     final percentage = (drawerStatus['percentage'] as num?)?.toDouble() ?? 1.0;
     final needsOrganization = percentage < 0.5;
 
-    // If drawer needs organization, bias toward clothes quests
+    // If drawer needs organization, ensure at least one clothes quest
     if (needsOrganization) {
-      // This is a placeholder - in full implementation, we'd adjust quest selection
+      // Check if any quest is a clothes quest
+      bool hasClothesQuest = false;
+      for (final quest in quests) {
+        if (quest != null) {
+          final template = await _templatesRepo.getTemplateById(quest.templateId);
+          if (template != null && template.focusAreaId == FocusArea.clothes) {
+            hasClothesQuest = true;
+            break;
+          }
+        }
+      }
+
+      // If no clothes quest exists, replace the medium quest with a clothes quest
+      if (!hasClothesQuest && quests.length >= 2 && quests[1] != null) {
+        final clothesTemplates = await _templatesRepo.getTemplatesByFocusAreas([FocusArea.clothes]);
+        final mediumClothesTemplates = clothesTemplates
+            .where((t) => t.durationBucket == 10)
+            .toList();
+        
+        if (mediumClothesTemplates.isNotEmpty) {
+          final selectedTemplate = mediumClothesTemplates[_random.nextInt(mediumClothesTemplates.length)];
+          final today = DateTime.now();
+          final todayStart = DateTime(today.year, today.month, today.day);
+          
+          quests[1] = QuestInstance(
+            id: 'quest_${DateTime.now().millisecondsSinceEpoch}_${_random.nextInt(1000)}',
+            date: todayStart,
+            templateId: selectedTemplate.id,
+            status: QuestStatus.todo,
+          );
+        }
+      }
     }
   }
 
   Future<void> _adjustForShoppingList(List<QuestInstance?> quests) async {
     final pendingItems = await _shoppingRepo.getPendingItems();
     
-    // If there are pending shopping items, consider suggesting cooking quests
+    // If there are pending shopping items, ensure at least one cooking quest
     if (pendingItems.isNotEmpty) {
-      // This is a placeholder - in full implementation, we'd adjust quest selection
+      // Check if any quest is a cooking quest
+      bool hasCookingQuest = false;
+      for (final quest in quests) {
+        if (quest != null) {
+          final template = await _templatesRepo.getTemplateById(quest.templateId);
+          if (template != null && template.focusAreaId == FocusArea.cooking) {
+            hasCookingQuest = true;
+            break;
+          }
+        }
+      }
+
+      // If no cooking quest exists, replace the medium quest with a cooking quest
+      if (!hasCookingQuest && quests.length >= 2 && quests[1] != null) {
+        final cookingTemplates = await _templatesRepo.getTemplatesByFocusAreas([FocusArea.cooking]);
+        final mediumCookingTemplates = cookingTemplates
+            .where((t) => t.durationBucket == 10)
+            .toList();
+        
+        if (mediumCookingTemplates.isNotEmpty) {
+          final selectedTemplate = mediumCookingTemplates[_random.nextInt(mediumCookingTemplates.length)];
+          final today = DateTime.now();
+          final todayStart = DateTime(today.year, today.month, today.day);
+          
+          quests[1] = QuestInstance(
+            id: 'quest_${DateTime.now().millisecondsSinceEpoch}_${_random.nextInt(1000)}',
+            date: todayStart,
+            templateId: selectedTemplate.id,
+            status: QuestStatus.todo,
+          );
+        }
+      }
     }
   }
 }

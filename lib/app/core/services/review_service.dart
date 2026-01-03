@@ -2,11 +2,13 @@ import '../../data/models/quest_instance.dart';
 import '../../data/models/weekly_review.dart';
 import '../../data/models/focus_area.dart';
 import '../../data/repositories/quests_repository.dart';
+import '../../data/repositories/templates_repository.dart';
 
 class ReviewService {
   final QuestsRepository _questsRepo;
+  final TemplatesRepository _templatesRepo;
 
-  ReviewService(this._questsRepo);
+  ReviewService(this._questsRepo, this._templatesRepo);
 
   Future<WeeklyReview> generateWeeklyReview(DateTime weekStart) async {
     final weekEnd = weekStart.add(const Duration(days: 7));
@@ -18,13 +20,41 @@ class ReviewService {
     );
 
     // Calculate completion stats per focus area
-    // For now, using placeholder logic since we need template data
-    final completionStats = <FocusArea, double>{
-      FocusArea.clothes: 0.6,
-      FocusArea.skincare: 0.4,
-      FocusArea.fitness: 0.5,
-      FocusArea.cooking: 0.3,
-    };
+    final completionStats = <FocusArea, double>{};
+    final areaStats = <FocusArea, Map<String, int>>{};
+    
+    // Initialize all focus areas
+    for (final area in FocusArea.values) {
+      areaStats[area] = {'completed': 0, 'total': 0};
+    }
+    
+    // Group instances by focus area and calculate stats
+    for (final instance in instances) {
+      final template = await _templatesRepo.getTemplateById(instance.templateId);
+      if (template != null) {
+        final area = template.focusAreaId;
+        final stats = areaStats[area]!;
+        stats['total'] = stats['total']! + 1;
+        if (instance.status.name == 'done') {
+          stats['completed'] = stats['completed']! + 1;
+        }
+      }
+    }
+    
+    // Calculate completion rates
+    for (final entry in areaStats.entries) {
+      final area = entry.key;
+      final stats = entry.value;
+      final total = stats['total']!;
+      final completed = stats['completed']!;
+      
+      if (total > 0) {
+        completionStats[area] = completed / total;
+      } else {
+        // If no quests for this area, set to 0
+        completionStats[area] = 0.0;
+      }
+    }
 
     // Detect avoided areas (areas with < 30% completion)
     final avoidedAreas = <FocusArea>[];

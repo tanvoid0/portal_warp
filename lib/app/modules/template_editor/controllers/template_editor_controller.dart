@@ -53,7 +53,7 @@ class TemplateEditorController extends GetxController {
 
   Future<void> saveTemplate() async {
     if (template.value.title.isEmpty) {
-      Get.snackbar('Error', 'Title is required');
+      Get.snackbar('Error', 'Title is required', snackPosition: SnackPosition.TOP);
       return;
     }
 

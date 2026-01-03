@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import '../controllers/today_controller.dart';
 import '../../../core/widgets/energy_picker.dart';
 import '../../../core/widgets/xp_bar.dart';
@@ -9,7 +10,9 @@ import '../../../core/widgets/drawer_card.dart';
 import '../../../core/widgets/shopping_card.dart';
 import '../../../core/widgets/plan_card.dart';
 import '../../../core/widgets/bottom_nav_bar.dart';
+import '../../../core/widgets/loading_widget.dart';
 import '../../../core/theme/design_tokens.dart';
+import '../../../core/services/unsplash_service.dart';
 import '../../../modules/main_navigation/main_navigation_controller.dart';
 import '../../../routes/app_routes.dart' show Routes;
 
@@ -31,7 +34,7 @@ class TodayView extends GetView<TodayController> {
           : null,
       body: Obx(() {
         if (controller.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
+          return const LoadingWidget();
         }
 
         return SingleChildScrollView(
@@ -40,13 +43,65 @@ class TodayView extends GetView<TodayController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: DesignTokens.spacingXL),
+              // Hero Image
+              ClipRRect(
+                borderRadius: BorderRadius.circular(DesignTokens.radiusL),
+                child: Stack(
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl: UnsplashService.getHeroImageUrlForScreen('today'),
+                      width: double.infinity,
+                      height: 200,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => Container(
+                        width: double.infinity,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          gradient: DesignTokens.questGradient(context),
+                        ),
+                        child: const Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => Container(
+                        width: double.infinity,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          gradient: DesignTokens.questGradient(context),
+                        ),
+                      ),
+                    ),
+                    // Gradient overlay for text readability
+                    Container(
+                      width: double.infinity,
+                      height: 200,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.transparent,
+                            Colors.black.withValues(alpha: 0.3),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+                  .animate()
+                  .fadeIn(duration: 300.ms)
+                  .slideY(begin: -0.1, end: 0, duration: 400.ms),
+              const SizedBox(height: DesignTokens.spacingXL),
               // Header
               Container(
                 padding: const EdgeInsets.all(DesignTokens.spacingXL),
                 decoration: BoxDecoration(
-                  gradient: DesignTokens.questGradient,
+                  gradient: DesignTokens.questGradient(context),
                   borderRadius: BorderRadius.circular(DesignTokens.radiusL),
-                  boxShadow: DesignTokens.softShadow,
+                  boxShadow: DesignTokens.softShadow(context),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -60,7 +115,7 @@ class TodayView extends GetView<TodayController> {
                               Container(
                                 padding: const EdgeInsets.all(DesignTokens.spacingS),
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.2),
+                                  color: Colors.white.withValues(alpha: 0.2),
                                   borderRadius: BorderRadius.circular(DesignTokens.radiusM),
                                 ),
                                 child: const Icon(
@@ -93,7 +148,7 @@ class TodayView extends GetView<TodayController> {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.2),
+                            color: Colors.white.withValues(alpha: 0.2),
                             borderRadius: BorderRadius.circular(DesignTokens.radiusM),
                           ),
                           child: IconButton(
@@ -105,7 +160,7 @@ class TodayView extends GetView<TodayController> {
                         const SizedBox(width: DesignTokens.spacingS),
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.2),
+                            color: Colors.white.withValues(alpha: 0.2),
                             borderRadius: BorderRadius.circular(DesignTokens.radiusM),
                           ),
                           child: IconButton(
@@ -174,7 +229,7 @@ class TodayView extends GetView<TodayController> {
                 final template = controller.questTemplates[quest.templateId];
                 if (template == null) return const SizedBox.shrink();
 
-                final gradient = controller.getQuestGradient(
+                final gradient = controller.getQuestGradient(context,
                   template.focusAreaId.name,
                 );
 
@@ -186,8 +241,12 @@ class TodayView extends GetView<TodayController> {
                     durationMinutes: template.durationBucket,
                     gradient: gradient,
                     isCompleted: quest.status.name == 'done',
-                    onDone: quest.status.name != 'done'
+                    xpAwarded: quest.xpAwarded > 0 ? quest.xpAwarded : null,
+                    onDone: quest.status.name != 'done' && quest.status.name != 'skip'
                         ? () => controller.completeQuest(quest.id)
+                        : null,
+                    onSkip: quest.status.name != 'done' && quest.status.name != 'skip'
+                        ? () => controller.skipQuest(quest.id)
                         : null,
                   ),
                 );

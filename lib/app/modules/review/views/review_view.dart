@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../controllers/review_controller.dart';
 import '../../../core/widgets/gradient_card.dart';
 import '../../../core/widgets/bottom_nav_bar.dart';
+import '../../../core/widgets/loading_widget.dart';
 import '../../../core/theme/design_tokens.dart';
 import '../../../data/models/focus_area.dart';
 
@@ -20,7 +21,7 @@ class ReviewView extends GetView<ReviewController> {
       bottomNavigationBar: const BottomNavBar(),
       body: Obx(() {
         if (controller.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
+          return const LoadingWidget();
         }
 
         final review = controller.weeklyReview.value;
@@ -57,7 +58,7 @@ class ReviewView extends GetView<ReviewController> {
               // Avoided Areas
               if (review.avoidedAreas.isNotEmpty) ...[
                 GradientCard(
-                  gradient: DesignTokens.questGradient,
+                  gradient: DesignTokens.questGradient(context),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -93,7 +94,7 @@ class ReviewView extends GetView<ReviewController> {
                 ),
                 const SizedBox(height: DesignTokens.spacingL),
                 GradientCard(
-                  gradient: DesignTokens.planningGradient,
+                  gradient: DesignTokens.planningGradient(context),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

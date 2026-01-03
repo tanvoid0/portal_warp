@@ -10,7 +10,7 @@ class MainNavigationView extends GetView<MainNavigationController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(() => _buildBody()),
-      bottomNavigationBar: Obx(() => _buildBottomNavBar()),
+      bottomNavigationBar: Obx(() => _buildBottomNavBar(context)),
     );
   }
 
@@ -19,12 +19,17 @@ class MainNavigationView extends GetView<MainNavigationController> {
     return const SizedBox.shrink();
   }
 
-  Widget _buildBottomNavBar() {
+  Widget _buildBottomNavBar(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    
     return Container(
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: isDark
+                ? Colors.black.withOpacity(0.3)
+                : Colors.black.withOpacity(0.1),
             blurRadius: 10,
             offset: const Offset(0, -2),
           ),
@@ -34,12 +39,15 @@ class MainNavigationView extends GetView<MainNavigationController> {
         currentIndex: controller.currentIndex.value,
         onTap: controller.changePage,
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: const Color(0xFFFF6B6B), // Coral color
-        unselectedItemColor: Colors.grey,
+        selectedItemColor: theme.colorScheme.primary,
+        unselectedItemColor: theme.colorScheme.onSurfaceVariant,
         selectedLabelStyle: DesignTokens.captionStyle.copyWith(
           fontWeight: FontWeight.w600,
+          color: theme.colorScheme.primary,
         ),
-        unselectedLabelStyle: DesignTokens.captionStyle,
+        unselectedLabelStyle: DesignTokens.captionStyle.copyWith(
+          color: theme.colorScheme.onSurfaceVariant,
+        ),
         items: controller.navItems.map((item) {
           return BottomNavigationBarItem(
             icon: Icon(item.icon),

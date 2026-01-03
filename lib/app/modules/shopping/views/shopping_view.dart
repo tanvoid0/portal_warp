@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import '../controllers/shopping_controller.dart';
 import '../../../core/widgets/bottom_nav_bar.dart';
 import '../../../core/widgets/shopping_card.dart';
+import '../../../core/widgets/modern_app_bar.dart';
+import '../../../core/widgets/loading_widget.dart';
 import '../../../core/theme/design_tokens.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../core/services/unsplash_service.dart';
 import '../../../data/models/shopping_item.dart';
 import '../../../modules/main_navigation/main_navigation_controller.dart';
 import '../../../routes/app_routes.dart';
+import 'shopping_item_detail_view.dart';
 
 class ShoppingView extends GetView<ShoppingController> {
   const ShoppingView({super.key});
@@ -15,17 +21,82 @@ class ShoppingView extends GetView<ShoppingController> {
   @override
   Widget build(BuildContext context) {
     // Update navigation index if MainNavigationController exists
+    // Note: Shopping is now accessed via Items tab, so map to items route
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (Get.isRegistered<MainNavigationController>()) {
-        Get.find<MainNavigationController>().updateCurrentIndex(Routes.shopping);
+        Get.find<MainNavigationController>().updateCurrentIndex(Routes.items);
       }
     });
 
+    // Check if we're inside ItemsView (no app bar needed)
+    final isInItemsView = Get.currentRoute == Routes.items;
+    
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Shopping List'),
-        centerTitle: true,
+      appBar: isInItemsView ? null : ModernAppBar(
+        title: 'Shopping List',
+        leading: null,
         actions: [
+          // Sort and Group Controls
+          Obx(() => Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Sort Button
+              IconButton(
+                icon: Icon(
+                  controller.sortAscending.value 
+                      ? Icons.arrow_upward 
+                      : Icons.arrow_downward,
+                  size: 20,
+                ),
+                onPressed: () {
+                  controller.sortAscending.value = !controller.sortAscending.value;
+                },
+                tooltip: 'Sort ${controller.sortAscending.value ? "Ascending" : "Descending"}',
+              ),
+              // Sort Options Menu
+              PopupMenuButton<String>(
+                icon: const Icon(Icons.sort, size: 20),
+                tooltip: 'Sort by',
+                onSelected: (value) {
+                  controller.sortBy.value = value;
+                },
+                itemBuilder: (context) => controller.sortOptions.map((option) {
+                  return PopupMenuItem(
+                    value: option,
+                    child: Row(
+                      children: [
+                        if (controller.sortBy.value == option)
+                          Icon(
+                            Icons.check,
+                            size: 16,
+                            color: Theme.of(context).colorScheme.primary,
+                          )
+                        else
+                          const SizedBox(width: 16),
+                        const SizedBox(width: DesignTokens.spacingS),
+                        Text(option[0].toUpperCase() + option.substring(1)),
+                      ],
+                    ),
+                  );
+                }).toList(),
+              ),
+              // Group Toggle
+              Obx(() => IconButton(
+                icon: Icon(
+                  controller.groupByCategory.value 
+                      ? Icons.view_list 
+                      : Icons.view_module,
+                  size: 20,
+                ),
+                onPressed: () {
+                  controller.groupByCategory.value = !controller.groupByCategory.value;
+                },
+                tooltip: controller.groupByCategory.value 
+                    ? 'Ungroup' 
+                    : 'Group by category',
+              )),
+            ],
+          )),
           Obx(() => Switch(
                 value: controller.showOnlyPending.value,
                 onChanged: (value) => controller.showOnlyPending.value = value,
@@ -37,9 +108,15 @@ class ShoppingView extends GetView<ShoppingController> {
                 await controller.importStarterEssentials();
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Shopping essentials imported!'),
-                      duration: Duration(seconds: 2),
+                    SnackBar(
+                      content: const Text('Shopping essentials imported!'),
+                      duration: const Duration(seconds: 2),
+                      behavior: SnackBarBehavior.floating,
+                      margin: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).size.height - 120,
+                        left: 16,
+                        right: 16,
+                      ),
                     ),
                   );
                 }
@@ -47,9 +124,15 @@ class ShoppingView extends GetView<ShoppingController> {
                 await controller.importWardrobeBuyOrder();
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Wardrobe buy order imported!'),
-                      duration: Duration(seconds: 2),
+                    SnackBar(
+                      content: const Text('Wardrobe buy order imported!'),
+                      duration: const Duration(seconds: 2),
+                      behavior: SnackBarBehavior.floating,
+                      margin: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).size.height - 120,
+                        left: 16,
+                        right: 16,
+                      ),
                     ),
                   );
                 }
@@ -80,14 +163,14 @@ class ShoppingView extends GetView<ShoppingController> {
           ),
         ],
       ),
-      bottomNavigationBar: const BottomNavBar(),
       floatingActionButton: FloatingActionButton(
+        heroTag: 'shopping_fab',
         onPressed: () => _showAddShoppingItemDialog(context),
         child: const Icon(Icons.add),
       ),
       body: Obx(() {
         if (controller.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
+          return const LoadingWidget();
         }
 
         return Column(
@@ -97,16 +180,16 @@ class ShoppingView extends GetView<ShoppingController> {
               padding: const EdgeInsets.all(DesignTokens.spacingL),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.grey[50],
+                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
                   borderRadius: BorderRadius.circular(DesignTokens.radiusL),
-                  boxShadow: DesignTokens.softShadow,
+                  boxShadow: DesignTokens.softShadow(context),
                 ),
                 child: TextField(
                   onChanged: (value) => controller.searchQuery.value = value,
                   decoration: InputDecoration(
                     hintText: 'Search items...',
-                    hintStyle: TextStyle(color: Colors.grey[500]),
-                    prefixIcon: Icon(Icons.search, color: Colors.grey[600]),
+                    hintStyle: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant),
+                    prefixIcon: Icon(Icons.search, color: Theme.of(context).colorScheme.onSurfaceVariant),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(DesignTokens.radiusL),
                       borderSide: BorderSide.none,
@@ -134,16 +217,36 @@ class ShoppingView extends GetView<ShoppingController> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
-                              Icons.shopping_cart_outlined,
-                              size: 64,
-                              color: Colors.grey[400],
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(DesignTokens.radiusM),
+                              child: CachedNetworkImage(
+                                imageUrl: UnsplashService.getEmptyStateImageUrlForScreen('shopping'),
+                                width: 200,
+                                height: 200,
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) => Container(
+                                  width: 200,
+                                  height: 200,
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                                    borderRadius: BorderRadius.circular(DesignTokens.radiusM),
+                                  ),
+                                  child: const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                ),
+                                errorWidget: (context, url, error) => Icon(
+                                  Icons.shopping_cart_outlined,
+                                  size: 64,
+                                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                ),
+                              ),
                             ),
                             const SizedBox(height: DesignTokens.spacingL),
                             Text(
                               'No shopping items yet',
                               style: DesignTokens.titleStyle.copyWith(
-                                color: Colors.grey[600],
+                                color: Theme.of(context).colorScheme.onSurfaceVariant,
                               ),
                             ),
                             const SizedBox(height: DesignTokens.spacingM),
@@ -152,22 +255,22 @@ class ShoppingView extends GetView<ShoppingController> {
                               margin: const EdgeInsets.symmetric(vertical: DesignTokens.spacingL),
                               padding: const EdgeInsets.all(DesignTokens.spacingL),
                               decoration: BoxDecoration(
-                                gradient: DesignTokens.shoppingGradient,
-                                borderRadius: BorderRadius.circular(DesignTokens.radiusL),
-                                boxShadow: DesignTokens.softShadow,
+                          gradient: DesignTokens.shoppingGradient(context),
+                          borderRadius: BorderRadius.circular(DesignTokens.radiusL),
+                          boxShadow: DesignTokens.softShadow(context),
                               ),
                               child: Column(
                                 children: [
-                                  const Icon(
+                                  Icon(
                                     Icons.shopping_cart,
-                                    color: Colors.white,
+                                    color: Theme.of(context).colorScheme.app.textOnGradient,
                                     size: 32,
                                   ),
                                   const SizedBox(height: DesignTokens.spacingM),
                                   Text(
                                     'Get Started',
                                     style: DesignTokens.titleStyle.copyWith(
-                                      color: Colors.white,
+                                      color: Theme.of(context).colorScheme.app.textOnGradient,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -175,7 +278,7 @@ class ShoppingView extends GetView<ShoppingController> {
                                   Text(
                                     'Import shopping essentials or wardrobe buy order from the cheatsheet',
                                     style: DesignTokens.bodyStyle.copyWith(
-                                      color: Colors.white70,
+                                      color: Theme.of(context).colorScheme.app.textOnGradientSecondary,
                                     ),
                                     textAlign: TextAlign.center,
                                   ),
@@ -187,9 +290,15 @@ class ShoppingView extends GetView<ShoppingController> {
                                           await controller.importStarterEssentials();
                                           if (context.mounted) {
                                             ScaffoldMessenger.of(context).showSnackBar(
-                                              const SnackBar(
-                                                content: Text('Shopping essentials imported!'),
-                                                duration: Duration(seconds: 2),
+                                              SnackBar(
+                                                content: const Text('Shopping essentials imported!'),
+                                                duration: const Duration(seconds: 2),
+                                                behavior: SnackBarBehavior.floating,
+                                                margin: EdgeInsets.only(
+                                                  bottom: MediaQuery.of(context).size.height - 120,
+                                                  left: 16,
+                                                  right: 16,
+                                                ),
                                               ),
                                             );
                                           }
@@ -197,7 +306,7 @@ class ShoppingView extends GetView<ShoppingController> {
                                         icon: const Icon(Icons.shopping_bag),
                                         label: const Text('Import Essentials'),
                                         style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.white,
+                                          backgroundColor: Theme.of(context).colorScheme.app.textOnGradient,
                                           foregroundColor: const Color(0xFF6BFFB3),
                                           padding: const EdgeInsets.symmetric(
                                             horizontal: DesignTokens.spacingL,
@@ -211,9 +320,15 @@ class ShoppingView extends GetView<ShoppingController> {
                                           await controller.importWardrobeBuyOrder();
                                           if (context.mounted) {
                                             ScaffoldMessenger.of(context).showSnackBar(
-                                              const SnackBar(
-                                                content: Text('Wardrobe buy order imported!'),
-                                                duration: Duration(seconds: 2),
+                                              SnackBar(
+                                                content: const Text('Wardrobe buy order imported!'),
+                                                duration: const Duration(seconds: 2),
+                                                behavior: SnackBarBehavior.floating,
+                                                margin: EdgeInsets.only(
+                                                  bottom: MediaQuery.of(context).size.height - 120,
+                                                  left: 16,
+                                                  right: 16,
+                                                ),
                                               ),
                                             );
                                           }
@@ -221,8 +336,8 @@ class ShoppingView extends GetView<ShoppingController> {
                                         icon: const Icon(Icons.checklist),
                                         label: const Text('Import Wardrobe Buy Order'),
                                         style: OutlinedButton.styleFrom(
-                                          foregroundColor: Colors.white,
-                                          side: const BorderSide(color: Colors.white),
+                                          foregroundColor: Theme.of(context).colorScheme.app.textOnGradient,
+                                          side: BorderSide(color: Theme.of(context).colorScheme.app.textOnGradient),
                                           padding: const EdgeInsets.symmetric(
                                             horizontal: DesignTokens.spacingL,
                                             vertical: DesignTokens.spacingM,
@@ -238,46 +353,124 @@ class ShoppingView extends GetView<ShoppingController> {
                             Text(
                               'Or tap + to add items manually',
                               style: DesignTokens.bodyStyle.copyWith(
-                                color: Colors.grey[500],
+                                color: Theme.of(context).colorScheme.onSurfaceVariant,
                               ),
                             ),
                           ],
                         ),
                       ),
                     )
-                  : ListView.builder(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: DesignTokens.spacingL,
-                      ),
-                      itemCount: controller.filteredItems.length,
-                      itemBuilder: (context, index) {
-                        final item = controller.filteredItems[index];
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: DesignTokens.spacingM),
-                          child: ShoppingCard(
-                            itemName: item.name,
-                            category: item.category,
-                            quantity: item.quantity,
-                            priority: item.priority,
-                            isPurchased: item.status.name == 'purchased',
-                            unit: item.unit,
-                            index: index,
-                            onQuantityChanged: (newQuantity) {
-                              controller.updateShoppingItem(
-                                item.copyWith(quantity: newQuantity),
-                              );
-                            },
-                            onTap: () {
-                              if (item.status.name == 'pending') {
-                                controller.markPurchased(item.id);
-                              } else {
-                                _showEditShoppingItemDialog(context, item);
-                              }
-                            },
+                  : Obx(() {
+                      if (controller.groupByCategory.value) {
+                        // Grouped view
+                        final grouped = controller.groupedItems;
+                        return ListView.builder(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: DesignTokens.spacingL,
                           ),
+                          itemCount: grouped.length,
+                          itemBuilder: (context, index) {
+                            final categories = grouped.keys.toList();
+                            final category = categories[index];
+                            final items = grouped[category]!;
+                            
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Category Header
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: DesignTokens.spacingL,
+                                    bottom: DesignTokens.spacingM,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        category,
+                                        style: DesignTokens.titleStyle.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          color: Theme.of(context).colorScheme.primary,
+                                        ),
+                                      ),
+                                      const SizedBox(width: DesignTokens.spacingS),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: DesignTokens.spacingS,
+                                          vertical: 2,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context).colorScheme.primaryContainer,
+                                          borderRadius: BorderRadius.circular(DesignTokens.spacingS),
+                                        ),
+                                        child: Text(
+                                          '${items.length}',
+                                          style: DesignTokens.captionStyle.copyWith(
+                                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                // Items in category
+                                ...items.map((item) => Padding(
+                                  padding: const EdgeInsets.only(bottom: DesignTokens.spacingM),
+                                  child: ShoppingCard(
+                                    itemName: item.name,
+                                    category: item.category,
+                                    quantity: item.quantity,
+                                    priority: item.priority,
+                                    isPurchased: item.status.name == 'purchased',
+                                    unit: item.unit,
+                                    index: items.indexOf(item),
+                                    onQuantityChanged: (newQuantity) {
+                                      controller.updateShoppingItem(
+                                        item.copyWith(quantity: newQuantity),
+                                      );
+                                    },
+                                    onTap: () {
+                                      Get.to(() => ShoppingItemDetailView(item: item));
+                                    },
+                                  ),
+                                )),
+                              ],
+                            );
+                          },
                         );
-                      },
-                    ),
+                      } else {
+                        // Flat list view
+                        return ListView.builder(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: DesignTokens.spacingL,
+                          ),
+                          itemCount: controller.filteredItems.length,
+                          itemBuilder: (context, index) {
+                            final item = controller.filteredItems[index];
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: DesignTokens.spacingM),
+                              child: ShoppingCard(
+                                itemName: item.name,
+                                category: item.category,
+                                quantity: item.quantity,
+                                priority: item.priority,
+                                isPurchased: item.status.name == 'purchased',
+                                unit: item.unit,
+                                index: index,
+                                onQuantityChanged: (newQuantity) {
+                                  controller.updateShoppingItem(
+                                    item.copyWith(quantity: newQuantity),
+                                  );
+                                },
+                                onTap: () {
+                                  Get.to(() => ShoppingItemDetailView(item: item));
+                                },
+                              ),
+                            );
+                          },
+                        );
+                      }
+                    }),
             ),
           ],
         );

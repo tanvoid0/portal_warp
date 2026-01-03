@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/design_tokens.dart';
-import 'gradient_card.dart';
+import '../theme/app_theme.dart';
+import '../services/item_icon_service.dart';
 import '../../data/models/item_unit.dart';
 import 'quantity_counter.dart';
 
@@ -15,6 +16,7 @@ class DrawerCard extends StatelessWidget {
   final int? targetQuantity;
   final ItemUnit? unit;
   final ValueChanged<int>? onQuantityChanged;
+  final List<String>? styles; // Style/occasion tags
 
   const DrawerCard({
     super.key,
@@ -27,128 +29,225 @@ class DrawerCard extends StatelessWidget {
     this.targetQuantity,
     this.unit,
     this.onQuantityChanged,
+    this.styles,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GradientCard(
-      gradient: DesignTokens.drawerGradient,
-      onTap: onTap,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(DesignTokens.spacingS),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(DesignTokens.radiusM),
-                    ),
-                    child: Icon(
-                      isOrganized ? Icons.check_circle : Icons.inventory_2,
-                      color: Colors.white,
-                      size: 20,
-                    ),
+    // Extract category from status (format: "category • location" or just "category")
+    final category = status.contains(' • ') ? status.split(' • ').first : status;
+    final itemIcon = ItemIconService.getDrawerIcon(title, category);
+    final appColors = Theme.of(context).colorScheme.app;
+    
+    return Container(
+      decoration: BoxDecoration(
+        gradient: DesignTokens.drawerGradient(context),
+        borderRadius: BorderRadius.circular(DesignTokens.radiusL),
+        boxShadow: DesignTokens.softShadow(context),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(DesignTokens.radiusL),
+          splashColor: appColors.textOnGradient.withOpacity(0.2),
+          highlightColor: appColors.textOnGradient.withOpacity(0.1),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: DesignTokens.spacingM,
+              vertical: DesignTokens.spacingS,
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Icon component - smaller
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: appColors.surfaceOverlay,
+                    borderRadius: BorderRadius.circular(DesignTokens.radiusM),
                   ),
-                  const SizedBox(width: DesignTokens.spacingM),
-                  Text(
-                    'DRAWER',
-                    style: DesignTokens.captionStyle.copyWith(
-                      color: Colors.white70,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 1.2,
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: DesignTokens.spacingM,
-                  vertical: DesignTokens.spacingS,
-                ),
-                decoration: BoxDecoration(
-                  color: isOrganized
-                      ? Colors.green.withOpacity(0.3)
-                      : Colors.orange.withOpacity(0.3),
-                  borderRadius: BorderRadius.circular(DesignTokens.radiusM),
-                  border: Border.all(
-                    color: Colors.white.withOpacity(0.3),
-                    width: 1,
+                  child: Icon(
+                    itemIcon,
+                    color: appColors.textOnGradient,
+                    size: 20,
                   ),
                 ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      isOrganized ? Icons.check : Icons.schedule,
-                      color: Colors.white,
-                      size: 14,
-                    ),
-                    const SizedBox(width: DesignTokens.spacingS),
-                    Text(
-                      isOrganized ? 'Organized' : 'Needs Work',
-                      style: DesignTokens.captionStyle.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
+                const SizedBox(width: DesignTokens.spacingS),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              title,
+                              style: DesignTokens.bodyStyle.copyWith(
+                                color: appColors.textOnGradient,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: DesignTokens.spacingXS),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: DesignTokens.spacingS,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: isOrganized
+                                  ? appColors.success.withOpacity(0.3)
+                                  : appColors.warning.withOpacity(0.3),
+                              borderRadius: BorderRadius.circular(DesignTokens.spacingS),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  isOrganized ? Icons.check : Icons.schedule,
+                                  color: appColors.textOnGradient,
+                                  size: 12,
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  isOrganized ? 'Done' : 'Needs Work',
+                                  style: DesignTokens.captionStyle.copyWith(
+                                    color: appColors.textOnGradient,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: DesignTokens.spacingL),
-          Text(
-            title,
-            style: DesignTokens.titleStyle.copyWith(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: DesignTokens.spacingS),
-          Row(
-            children: [
-              Icon(
-                Icons.category,
-                color: Colors.white70,
-                size: 16,
-              ),
-              const SizedBox(width: DesignTokens.spacingS),
-              Expanded(
-                child: Text(
-                  status,
-                  style: DesignTokens.bodyStyle.copyWith(
-                    color: Colors.white70,
+                      const SizedBox(height: 2),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              status,
+                              style: DesignTokens.captionStyle.copyWith(
+                                color: appColors.textOnGradientSecondary,
+                                fontSize: 11,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          // Style tags
+                          if (styles != null && styles!.isNotEmpty) ...[
+                            const SizedBox(width: DesignTokens.spacingXS),
+                            ...styles!.take(2).map((style) => Padding(
+                              padding: const EdgeInsets.only(left: 4),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                  vertical: 2,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: appColors.surfaceOverlay.withOpacity(0.6),
+                                  borderRadius: BorderRadius.circular(DesignTokens.spacingS),
+                                ),
+                                child: Text(
+                                  style,
+                                  style: DesignTokens.captionStyle.copyWith(
+                                    color: appColors.textOnGradient,
+                                    fontSize: 9,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            )),
+                            if (styles!.length > 2)
+                              Padding(
+                                padding: const EdgeInsets.only(left: 4),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 6,
+                                    vertical: 2,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: appColors.surfaceOverlay.withOpacity(0.6),
+                                    borderRadius: BorderRadius.circular(DesignTokens.spacingS),
+                                  ),
+                                  child: Text(
+                                    '+${styles!.length - 2}',
+                                    style: DesignTokens.captionStyle.copyWith(
+                                      color: appColors.textOnGradient,
+                                      fontSize: 9,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          ],
+                          if (currentQuantity != null) ...[
+                            const SizedBox(width: DesignTokens.spacingXS),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                GestureDetector(
+                                  onTap: onQuantityChanged != null && currentQuantity! > 0
+                                      ? () => onQuantityChanged!(currentQuantity! - 1)
+                                      : null,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(4),
+                                    decoration: BoxDecoration(
+                                      color: appColors.surfaceOverlay,
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: Icon(
+                                      Icons.remove,
+                                      size: 14,
+                                      color: appColors.textOnGradient,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                                  child: Text(
+                                    '${currentQuantity}${targetQuantity != null && targetQuantity! > 0 ? '/$targetQuantity' : ''} ${unit?.displayName ?? ''}',
+                                    style: DesignTokens.captionStyle.copyWith(
+                                      color: appColors.textOnGradient,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                                if (onQuantityChanged != null)
+                                  GestureDetector(
+                                    onTap: () => onQuantityChanged!(currentQuantity! + 1),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(4),
+                                      decoration: BoxDecoration(
+                                        color: appColors.surfaceOverlay,
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                      child: Icon(
+                                        Icons.add,
+                                        size: 14,
+                                        color: appColors.textOnGradient,
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ],
+                        ],
+                      ),
+                    ],
                   ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
-            ],
-          ),
-          if (currentQuantity != null && onQuantityChanged != null) ...[
-            const SizedBox(height: DesignTokens.spacingL),
-            Container(
-              padding: const EdgeInsets.all(DesignTokens.spacingM),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.15),
-                borderRadius: BorderRadius.circular(DesignTokens.radiusM),
-              ),
-              child: QuantityCounter(
-                value: currentQuantity!,
-                target: targetQuantity,
-                unit: unit?.displayName ?? '',
-                onChanged: onQuantityChanged!,
-                min: 0,
-                max: targetQuantity != null && targetQuantity! > 0 ? targetQuantity! * 2 : 999,
-              ),
+              ],
             ),
-          ],
-        ],
+          ),
+        ),
       ),
     )
         .animate()

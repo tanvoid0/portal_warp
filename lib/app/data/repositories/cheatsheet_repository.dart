@@ -75,6 +75,66 @@ class CheatsheetRepository {
     }).toList();
   }
 
+  /// Get gym essentials items as drawer items
+  Future<List<DrawerItem>> getGymEssentialsItems() async {
+    final data = await _loadCheatsheetData();
+    final gymList = data['gymEssentials'] as List? ?? [];
+
+    return gymList.map((item) {
+      return DrawerItem(
+        id: 'gym_essentials_${item['name']}',
+        category: item['category'] as String? ?? '',
+        name: item['name'] as String? ?? '',
+        location: item['location'] as String? ?? '',
+        status: DrawerStatus.unorganized,
+        notes: item['notes'] as String?,
+        currentQuantity: (item['currentQuantity'] as num?)?.toInt() ?? 0,
+        targetQuantity: (item['targetQuantity'] as num?)?.toInt() ?? 0,
+        unit: _parseUnit(item['unit'] as Map<String, dynamic>?),
+      );
+    }).toList();
+  }
+
+  /// Get grooming essentials items as drawer items
+  Future<List<DrawerItem>> getGroomingEssentialsItems() async {
+    final data = await _loadCheatsheetData();
+    final groomingList = data['groomingEssentials'] as List? ?? [];
+
+    return groomingList.map((item) {
+      return DrawerItem(
+        id: 'grooming_essentials_${item['name']}',
+        category: item['category'] as String? ?? '',
+        name: item['name'] as String? ?? '',
+        location: item['location'] as String? ?? '',
+        status: DrawerStatus.unorganized,
+        notes: item['notes'] as String?,
+        currentQuantity: (item['currentQuantity'] as num?)?.toInt() ?? 0,
+        targetQuantity: (item['targetQuantity'] as num?)?.toInt() ?? 0,
+        unit: _parseUnit(item['unit'] as Map<String, dynamic>?),
+      );
+    }).toList();
+  }
+
+  /// Get sleepwear essentials items as drawer items
+  Future<List<DrawerItem>> getSleepwearEssentialsItems() async {
+    final data = await _loadCheatsheetData();
+    final sleepwearList = data['sleepwearEssentials'] as List? ?? [];
+
+    return sleepwearList.map((item) {
+      return DrawerItem(
+        id: 'sleepwear_essentials_${item['name']}',
+        category: item['category'] as String? ?? '',
+        name: item['name'] as String? ?? '',
+        location: item['location'] as String? ?? '',
+        status: DrawerStatus.unorganized,
+        notes: item['notes'] as String?,
+        currentQuantity: (item['currentQuantity'] as num?)?.toInt() ?? 0,
+        targetQuantity: (item['targetQuantity'] as num?)?.toInt() ?? 0,
+        unit: _parseUnit(item['unit'] as Map<String, dynamic>?),
+      );
+    }).toList();
+  }
+
   /// Get drawer organization categories
   Future<List<String>> getDrawerCategories() async {
     final data = await _loadCheatsheetData();
@@ -134,7 +194,8 @@ class CheatsheetRepository {
           id: 'daily_morning_${task['title']}',
           title: task['title'] as String? ?? task.toString(),
           date: date,
-          category: 'Morning Routine',
+          time: 'Morning',
+          category: task['category'] as String? ?? '',
           status: PlanStatus.pending,
           quantity: (task['quantity'] as num?)?.toInt() ?? 1,
           unit: _parseUnit(task['unit'] as Map<String, dynamic>?),
@@ -144,7 +205,8 @@ class CheatsheetRepository {
           id: 'daily_morning_${task}',
           title: task.toString(),
           date: date,
-          category: 'Morning Routine',
+          time: 'Morning',
+          category: '',
           status: PlanStatus.pending,
         ));
       }
@@ -157,7 +219,8 @@ class CheatsheetRepository {
           id: 'daily_night_${task['title']}',
           title: task['title'] as String? ?? task.toString(),
           date: date,
-          category: task['category'] as String? ?? 'Night Routine',
+          time: 'Night',
+          category: task['category'] as String? ?? '',
           status: PlanStatus.pending,
           quantity: (task['quantity'] as num?)?.toInt() ?? 1,
           unit: _parseUnit(task['unit'] as Map<String, dynamic>?),
@@ -167,7 +230,8 @@ class CheatsheetRepository {
           id: 'daily_night_${task}',
           title: task.toString(),
           date: date,
-          category: 'Night Routine',
+          time: 'Night',
+          category: '',
           status: PlanStatus.pending,
         ));
       }

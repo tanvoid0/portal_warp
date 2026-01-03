@@ -13,6 +13,21 @@ class CheatsheetService {
     return await _repository.getStarterWardrobeItems();
   }
 
+  /// Get gym essentials items as drawer items
+  Future<List<DrawerItem>> getGymEssentialsItems() async {
+    return await _repository.getGymEssentialsItems();
+  }
+
+  /// Get grooming essentials items as drawer items
+  Future<List<DrawerItem>> getGroomingEssentialsItems() async {
+    return await _repository.getGroomingEssentialsItems();
+  }
+
+  /// Get sleepwear essentials items as drawer items
+  Future<List<DrawerItem>> getSleepwearEssentialsItems() async {
+    return await _repository.getSleepwearEssentialsItems();
+  }
+
   /// Get drawer organization categories from cheatsheet
   Future<List<String>> getDrawerCategories() async {
     return await _repository.getDrawerCategories();

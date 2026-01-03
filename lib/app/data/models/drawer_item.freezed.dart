@@ -32,7 +32,10 @@ mixin _$DrawerItem {
       throw _privateConstructorUsedError; // Current count (e.g., 3)
   int get targetQuantity =>
       throw _privateConstructorUsedError; // Target count (e.g., 5)
-  ItemUnit get unit => throw _privateConstructorUsedError;
+  ItemUnit get unit =>
+      throw _privateConstructorUsedError; // Unit type (e.g., "pieces", "pairs", "t-shirts")
+// Style/occasion tags (e.g., "casual", "formal", "home", "work", "sport", "party")
+  List<String> get styles => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -56,7 +59,8 @@ abstract class $DrawerItemCopyWith<$Res> {
       String? notes,
       int currentQuantity,
       int targetQuantity,
-      ItemUnit unit});
+      ItemUnit unit,
+      List<String> styles});
 
   $ItemUnitCopyWith<$Res> get unit;
 }
@@ -84,6 +88,7 @@ class _$DrawerItemCopyWithImpl<$Res, $Val extends DrawerItem>
     Object? currentQuantity = null,
     Object? targetQuantity = null,
     Object? unit = null,
+    Object? styles = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -126,6 +131,10 @@ class _$DrawerItemCopyWithImpl<$Res, $Val extends DrawerItem>
           ? _value.unit
           : unit // ignore: cast_nullable_to_non_nullable
               as ItemUnit,
+      styles: null == styles
+          ? _value.styles
+          : styles // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 
@@ -156,7 +165,8 @@ abstract class _$$DrawerItemImplCopyWith<$Res>
       String? notes,
       int currentQuantity,
       int targetQuantity,
-      ItemUnit unit});
+      ItemUnit unit,
+      List<String> styles});
 
   @override
   $ItemUnitCopyWith<$Res> get unit;
@@ -183,6 +193,7 @@ class __$$DrawerItemImplCopyWithImpl<$Res>
     Object? currentQuantity = null,
     Object? targetQuantity = null,
     Object? unit = null,
+    Object? styles = null,
   }) {
     return _then(_$DrawerItemImpl(
       id: null == id
@@ -225,6 +236,10 @@ class __$$DrawerItemImplCopyWithImpl<$Res>
           ? _value.unit
           : unit // ignore: cast_nullable_to_non_nullable
               as ItemUnit,
+      styles: null == styles
+          ? _value._styles
+          : styles // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -242,7 +257,9 @@ class _$DrawerItemImpl implements _DrawerItem {
       this.notes,
       this.currentQuantity = 0,
       this.targetQuantity = 0,
-      this.unit = const ItemUnit()});
+      this.unit = const ItemUnit(),
+      final List<String> styles = const []})
+      : _styles = styles;
 
   factory _$DrawerItemImpl.fromJson(Map<String, dynamic> json) =>
       _$$DrawerItemImplFromJson(json);
@@ -276,10 +293,22 @@ class _$DrawerItemImpl implements _DrawerItem {
   @override
   @JsonKey()
   final ItemUnit unit;
+// Unit type (e.g., "pieces", "pairs", "t-shirts")
+// Style/occasion tags (e.g., "casual", "formal", "home", "work", "sport", "party")
+  final List<String> _styles;
+// Unit type (e.g., "pieces", "pairs", "t-shirts")
+// Style/occasion tags (e.g., "casual", "formal", "home", "work", "sport", "party")
+  @override
+  @JsonKey()
+  List<String> get styles {
+    if (_styles is EqualUnmodifiableListView) return _styles;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_styles);
+  }
 
   @override
   String toString() {
-    return 'DrawerItem(id: $id, category: $category, name: $name, location: $location, status: $status, lastOrganized: $lastOrganized, notes: $notes, currentQuantity: $currentQuantity, targetQuantity: $targetQuantity, unit: $unit)';
+    return 'DrawerItem(id: $id, category: $category, name: $name, location: $location, status: $status, lastOrganized: $lastOrganized, notes: $notes, currentQuantity: $currentQuantity, targetQuantity: $targetQuantity, unit: $unit, styles: $styles)';
   }
 
   @override
@@ -301,13 +330,25 @@ class _$DrawerItemImpl implements _DrawerItem {
                 other.currentQuantity == currentQuantity) &&
             (identical(other.targetQuantity, targetQuantity) ||
                 other.targetQuantity == targetQuantity) &&
-            (identical(other.unit, unit) || other.unit == unit));
+            (identical(other.unit, unit) || other.unit == unit) &&
+            const DeepCollectionEquality().equals(other._styles, _styles));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, category, name, location,
-      status, lastOrganized, notes, currentQuantity, targetQuantity, unit);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      category,
+      name,
+      location,
+      status,
+      lastOrganized,
+      notes,
+      currentQuantity,
+      targetQuantity,
+      unit,
+      const DeepCollectionEquality().hash(_styles));
 
   @JsonKey(ignore: true)
   @override
@@ -334,7 +375,8 @@ abstract class _DrawerItem implements DrawerItem {
       final String? notes,
       final int currentQuantity,
       final int targetQuantity,
-      final ItemUnit unit}) = _$DrawerItemImpl;
+      final ItemUnit unit,
+      final List<String> styles}) = _$DrawerItemImpl;
 
   factory _DrawerItem.fromJson(Map<String, dynamic> json) =
       _$DrawerItemImpl.fromJson;
@@ -359,6 +401,9 @@ abstract class _DrawerItem implements DrawerItem {
   int get targetQuantity;
   @override // Target count (e.g., 5)
   ItemUnit get unit;
+  @override // Unit type (e.g., "pieces", "pairs", "t-shirts")
+// Style/occasion tags (e.g., "casual", "formal", "home", "work", "sport", "party")
+  List<String> get styles;
   @override
   @JsonKey(ignore: true)
   _$$DrawerItemImplCopyWith<_$DrawerItemImpl> get copyWith =>

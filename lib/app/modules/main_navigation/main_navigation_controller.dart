@@ -13,13 +13,8 @@ class MainNavigationController extends GetxController {
     ),
     NavItem(
       icon: Icons.inventory_2,
-      label: 'Drawer',
-      route: Routes.drawer,
-    ),
-    NavItem(
-      icon: Icons.shopping_cart,
-      label: 'Shopping',
-      route: Routes.shopping,
+      label: 'Items',
+      route: Routes.items,
     ),
     NavItem(
       icon: Icons.calendar_today,
@@ -27,22 +22,31 @@ class MainNavigationController extends GetxController {
       route: Routes.planning,
     ),
     NavItem(
-      icon: Icons.settings,
-      label: 'Settings',
-      route: Routes.settings,
+      icon: Icons.more_horiz,
+      label: 'More',
+      route: Routes.more,
     ),
   ];
 
   void changePage(int index) {
     if (index != currentIndex.value) {
       currentIndex.value = index;
-      // Use toNamed instead of offNamed to keep navigation stack
-      Get.toNamed(navItems[index].route);
+      // Use offNamed to replace the route instead of pushing, preventing back button
+      Get.offNamed(navItems[index].route);
     }
   }
 
   void updateCurrentIndex(String route) {
-    final index = navItems.indexWhere((item) => item.route == route);
+    // Map child routes to parent navigation items
+    String mappedRoute = route;
+    if (route == Routes.inventory || route == Routes.inventoryWardrobe || route == Routes.shopping) {
+      mappedRoute = Routes.items;
+    } else if (route == Routes.cheatsheet || route == Routes.settings || 
+               route == Routes.templates || route == Routes.review) {
+      mappedRoute = Routes.more;
+    }
+    
+    final index = navItems.indexWhere((item) => item.route == mappedRoute);
     if (index != -1) {
       currentIndex.value = index;
     }
@@ -52,7 +56,8 @@ class MainNavigationController extends GetxController {
     final index = navItems.indexWhere((item) => item.route == route);
     if (index != -1) {
       currentIndex.value = index;
-      Get.toNamed(route);
+      // Use offNamed to replace the route for main navigation tabs
+      Get.offNamed(route);
     }
   }
 }

@@ -25,7 +25,7 @@ class EnergyPicker extends StatelessWidget {
           ],
         ),
         borderRadius: BorderRadius.circular(DesignTokens.radiusL),
-        boxShadow: DesignTokens.softShadow,
+        boxShadow: DesignTokens.softShadow(context),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

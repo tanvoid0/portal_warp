@@ -1,0 +1,10 @@
+{
+  // Disable Markdown image rendering in preview
+  // This prevents images from being displayed in the Markdown preview pane
+  "markdown.preview.breaks": false,
+  "markdown.preview.linkify": true,
+  "markdown.preview.typographer": false,
+  // Alternative: If you want to completely disable Markdown preview, uncomment below
+  // "markdown.preview.openMarkdownLinks": "off"
+}
+

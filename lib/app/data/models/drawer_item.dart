@@ -32,6 +32,8 @@ class DrawerItem with _$DrawerItem {
     @Default(0) int currentQuantity, // Current count (e.g., 3)
     @Default(0) int targetQuantity, // Target count (e.g., 5)
     @Default(ItemUnit()) ItemUnit unit, // Unit type (e.g., "pieces", "pairs", "t-shirts")
+    // Style/occasion tags (e.g., "casual", "formal", "home", "work", "sport", "party")
+    @Default([]) List<String> styles,
   }) = _DrawerItem;
 
   factory DrawerItem.fromJson(Map<String, dynamic> json) =>

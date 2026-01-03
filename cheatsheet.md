@@ -126,6 +126,7 @@ Quick filters:
 * [ ] Layers (hoodies/jackets)
 * [ ] Gym
 * [ ] Sleepwear
+* [ ] Grooming products
 * [ ] Accessories (belts, watch, etc.)
 
 ## Step 3 — Closet layout (the pro layout)
@@ -145,7 +146,9 @@ From left to right:
 * [ ] Underwear in one box
 * [ ] Socks paired + stacked
 * [ ] Tees file-folded vertically
-* [ ] One “gym drawer” only
+* [ ] One "gym drawer" only
+* [ ] One "grooming drawer" or bathroom organizer
+* [ ] Sleepwear separate from daily clothes
 * [ ] Nothing random allowed (no cables, papers)
 
 ## Step 5 — Make 10 saved outfits (30 min)
@@ -178,49 +181,77 @@ Priority buy order:
 
 ---
 
-# 5) Grooming “Representation” Checklist (fast upgrades)
+# 5) Grooming "Representation" Checklist (fast upgrades)
 
-### Hair
+## A) Grooming Essentials (drawer/bathroom organizer)
 
+### Hair care
+
+* [ ] 1 styling product (pomade/wax/gel)
+* [ ] Quality shampoo for your hair type
+* [ ] Matching conditioner
 * [ ] Haircut schedule: every 3–6 weeks
-* [ ] 1 styling product
-* [ ] Eyebrow tidy (minimal, don’t overpluck)
+* [ ] Eyebrow tidy (minimal, don't overpluck)
 
 ### Facial hair
 
+* [ ] Razor or trimmer (for clean shave or beard maintenance)
 * [ ] Either clean shave OR consistent beard length
 * [ ] Neckline clean
-* [ ] Beard oil (optional)
+* [ ] Beard oil (optional, if you have a beard)
 
-### Nails & hands
+### Skincare basics
 
+* [ ] Face cleanser (gentle)
+* [ ] Face moisturizer (daily)
+* [ ] SPF (daily for face)
 * [ ] Nails trimmed weekly
 * [ ] Hand cream if dry
 
-### Teeth & breath
+### Hygiene essentials
 
-* [ ] Brush 2×
+* [ ] Deodorant (keep one at home, one backup)
+* [ ] One simple fragrance (optional): 1–2 sprays max
+* [ ] Brush teeth 2× daily
 * [ ] Floss 3×/week (upgrade to daily later)
 * [ ] Gum/mints for daytime
-
-### Scent
-
-* [ ] Deodorant always
-* [ ] One simple fragrance (optional): 1–2 sprays max
 * [ ] Clothes actually clean (most important)
 
 ---
 
-# 6) Fitness + posture checklist (confidence physically)
+# 6) Fitness + Gym Essentials (confidence physically)
+
+## A) Gym Wardrobe Essentials (one dedicated drawer)
+
+* [ ] 5 gym t-shirts (moisture-wicking, dark colors hide sweat)
+* [ ] 3 gym shorts (athletic shorts with pockets)
+* [ ] 2 gym pants/leggings (for colder weather or leg day)
+* [ ] 7 gym socks (athletic socks - one pair per workout day)
+* [ ] 1 pair gym shoes (dedicated workout shoes - keep separate from casual)
+* [ ] 2 gym towels (quick-dry for gym use)
+* [ ] 1 water bottle (reusable for workouts)
+* [ ] 1 gym bag (dedicated bag for gym essentials)
+
+## B) Fitness Routine
 
 * [ ] Walk 10 min daily
 * [ ] 2 workouts/week (start) → 3 later
-* [ ] Posture cue 3×/day: “chest open, chin back, shoulders down”
+* [ ] Posture cue 3×/day: "chest open, chin back, shoulders down"
 * [ ] Mobility 5 min after shower (optional)
 
 ---
 
-# 7) Cooking basics checklist (so you don’t rely on survival)
+# 7) Sleepwear Essentials (comfort and organization)
+
+* [ ] 3 sleep t-shirts (comfortable cotton t-shirts for sleep)
+* [ ] 3 sleep shorts or pants (comfortable sleep bottoms)
+* [ ] 1 robe (optional - for comfort at home)
+
+Keep sleepwear separate from daily clothes to maintain organization and hygiene.
+
+---
+
+# 8) Cooking basics checklist (so you don't rely on survival)
 
 Stock these always:
 
@@ -238,7 +269,7 @@ Beginner wins:
 
 ---
 
-# 8) A simple “start this week” plan (no overwhelm)
+# 9) A simple "start this week" plan (no overwhelm)
 
 ### Day 1: Wardrobe reset
 

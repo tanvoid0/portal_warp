@@ -6,8 +6,7 @@
       "targetQuantity": 5,
       "currentQuantity": 0,
       "unit": {
-        "type": "custom",
-        "customUnit": "t-shirts"
+        "type": "items"
       },
       "location": "",
       "notes": "Casual essentials - white/black/grey/navy"
@@ -18,8 +17,7 @@
       "targetQuantity": 3,
       "currentQuantity": 0,
       "unit": {
-        "type": "custom",
-        "customUnit": "shirts"
+        "type": "items"
       },
       "location": "",
       "notes": "Oxford button-down works best"
@@ -96,8 +94,7 @@
       "targetQuantity": 2,
       "currentQuantity": 0,
       "unit": {
-        "type": "custom",
-        "customUnit": "shirts"
+        "type": "items"
       },
       "location": "",
       "notes": "White, light blue - professional essentials"
@@ -108,8 +105,7 @@
       "targetQuantity": 2,
       "currentQuantity": 0,
       "unit": {
-        "type": "custom",
-        "customUnit": "shirts"
+        "type": "items"
       },
       "location": "",
       "notes": "If you need them for work"
@@ -212,6 +208,265 @@
       },
       "location": "",
       "notes": "One statement piece - keep it minimal"
+    }
+  ],
+  "gymEssentials": [
+    {
+      "category": "Gym",
+      "name": "Gym t-shirts",
+      "targetQuantity": 5,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "items"
+      },
+      "location": "",
+      "notes": "Moisture-wicking fabric - dark colors hide sweat"
+    },
+    {
+      "category": "Gym",
+      "name": "Gym shorts",
+      "targetQuantity": 3,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "pairs"
+      },
+      "location": "",
+      "notes": "Athletic shorts with pockets"
+    },
+    {
+      "category": "Gym",
+      "name": "Gym pants/leggings",
+      "targetQuantity": 2,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "pairs"
+      },
+      "location": "",
+      "notes": "For colder weather or leg day"
+    },
+    {
+      "category": "Gym",
+      "name": "Gym socks",
+      "targetQuantity": 7,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "pairs"
+      },
+      "location": "",
+      "notes": "Athletic socks - one pair per workout day"
+    },
+    {
+      "category": "Gym",
+      "name": "Gym shoes",
+      "targetQuantity": 1,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "pairs"
+      },
+      "location": "",
+      "notes": "Dedicated workout shoes - keep separate from casual"
+    },
+    {
+      "category": "Gym",
+      "name": "Gym towel",
+      "targetQuantity": 2,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "pieces"
+      },
+      "location": "",
+      "notes": "Quick-dry towel for gym use"
+    },
+    {
+      "category": "Gym",
+      "name": "Water bottle",
+      "targetQuantity": 1,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "pieces"
+      },
+      "location": "",
+      "notes": "Reusable water bottle for workouts"
+    },
+    {
+      "category": "Gym",
+      "name": "Gym bag",
+      "targetQuantity": 1,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "pieces"
+      },
+      "location": "",
+      "notes": "Dedicated bag for gym essentials"
+    }
+  ],
+  "groomingEssentials": [
+    {
+      "category": "Grooming",
+      "name": "Hair styling product",
+      "targetQuantity": 1,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "pieces"
+      },
+      "location": "",
+      "notes": "One styling product (pomade/wax/gel)"
+    },
+    {
+      "category": "Grooming",
+      "name": "Shampoo",
+      "targetQuantity": 1,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "bottles"
+      },
+      "location": "",
+      "notes": "Quality shampoo for your hair type"
+    },
+    {
+      "category": "Grooming",
+      "name": "Conditioner",
+      "targetQuantity": 1,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "bottles"
+      },
+      "location": "",
+      "notes": "Matching conditioner"
+    },
+    {
+      "category": "Grooming",
+      "name": "Razor or trimmer",
+      "targetQuantity": 1,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "pieces"
+      },
+      "location": "",
+      "notes": "For clean shave or beard maintenance"
+    },
+    {
+      "category": "Grooming",
+      "name": "Beard oil",
+      "targetQuantity": 1,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "bottles"
+      },
+      "location": "",
+      "notes": "Optional - if you have a beard"
+    },
+    {
+      "category": "Grooming",
+      "name": "Deodorant",
+      "targetQuantity": 2,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "pieces"
+      },
+      "location": "",
+      "notes": "Keep one at home, one backup"
+    },
+    {
+      "category": "Grooming",
+      "name": "Fragrance",
+      "targetQuantity": 1,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "bottles"
+      },
+      "location": "",
+      "notes": "One simple fragrance - 1-2 sprays max"
+    },
+    {
+      "category": "Grooming",
+      "name": "Face moisturizer",
+      "targetQuantity": 1,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "bottles"
+      },
+      "location": "",
+      "notes": "Daily face moisturizer"
+    },
+    {
+      "category": "Grooming",
+      "name": "SPF",
+      "targetQuantity": 1,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "bottles"
+      },
+      "location": "",
+      "notes": "Daily SPF for face"
+    },
+    {
+      "category": "Grooming",
+      "name": "Face cleanser",
+      "targetQuantity": 1,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "bottles"
+      },
+      "location": "",
+      "notes": "Gentle face cleanser"
+    },
+    {
+      "category": "Grooming",
+      "name": "Nail clippers",
+      "targetQuantity": 1,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "pieces"
+      },
+      "location": "",
+      "notes": "Trim nails weekly"
+    },
+    {
+      "category": "Grooming",
+      "name": "Hand cream",
+      "targetQuantity": 1,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "bottles"
+      },
+      "location": "",
+      "notes": "If hands get dry"
+    }
+  ],
+  "sleepwearEssentials": [
+    {
+      "category": "Sleepwear",
+      "name": "Sleep t-shirts",
+      "targetQuantity": 3,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "items"
+      },
+      "location": "",
+      "notes": "Comfortable cotton t-shirts for sleep"
+    },
+    {
+      "category": "Sleepwear",
+      "name": "Sleep shorts or pants",
+      "targetQuantity": 3,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "pairs"
+      },
+      "location": "",
+      "notes": "Comfortable sleep bottoms"
+    },
+    {
+      "category": "Sleepwear",
+      "name": "Robe",
+      "targetQuantity": 1,
+      "currentQuantity": 0,
+      "unit": {
+        "type": "pieces"
+      },
+      "location": "",
+      "notes": "Optional - for comfort at home"
     }
   ],
   "drawerCategories": [
@@ -363,8 +618,7 @@
       "category": "T-shirts",
       "quantity": 5,
       "unit": {
-        "type": "custom",
-        "customUnit": "t-shirts"
+        "type": "items"
       },
       "priority": 4,
       "notes": "Priority buy order: 3 - White/black/grey/navy"
@@ -374,8 +628,7 @@
       "category": "Shirts",
       "quantity": 2,
       "unit": {
-        "type": "custom",
-        "customUnit": "shirts"
+        "type": "items"
       },
       "priority": 4,
       "notes": "Priority buy order: 4 - Oxford button-down"

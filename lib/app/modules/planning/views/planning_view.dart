@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import '../controllers/planning_controller.dart';
 import '../../../core/widgets/bottom_nav_bar.dart';
 import '../../../core/widgets/plan_card.dart';
+import '../../../core/widgets/modern_app_bar.dart';
+import '../../../core/widgets/loading_widget.dart';
 import '../../../core/theme/design_tokens.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../core/services/unsplash_service.dart';
 import '../../../data/models/plan_item.dart';
 import '../../../modules/main_navigation/main_navigation_controller.dart';
 import '../../../routes/app_routes.dart';
+import 'plan_item_detail_view.dart';
 
 class PlanningView extends GetView<PlanningController> {
   const PlanningView({super.key});
@@ -21,9 +27,9 @@ class PlanningView extends GetView<PlanningController> {
     });
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Planning'),
-        centerTitle: true,
+      appBar: ModernAppBar(
+        title: 'Planning',
+        leading: null,
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) async {
@@ -31,9 +37,15 @@ class PlanningView extends GetView<PlanningController> {
                 await controller.importDailyChecklist();
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Daily checklist imported!'),
-                      duration: Duration(seconds: 2),
+                    SnackBar(
+                      content: const Text('Daily checklist imported!'),
+                      duration: const Duration(seconds: 2),
+                      behavior: SnackBarBehavior.floating,
+                      margin: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).size.height - 120,
+                        left: 16,
+                        right: 16,
+                      ),
                     ),
                   );
                 }
@@ -61,7 +73,7 @@ class PlanningView extends GetView<PlanningController> {
       ),
       body: Obx(() {
         if (controller.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
+          return const LoadingWidget();
         }
 
         final selectedDate = controller.selectedDate.value;
@@ -119,16 +131,36 @@ class PlanningView extends GetView<PlanningController> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
-                              Icons.calendar_today_outlined,
-                              size: 64,
-                              color: Colors.grey[400],
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(DesignTokens.radiusM),
+                              child: CachedNetworkImage(
+                                imageUrl: UnsplashService.getEmptyStateImageUrlForScreen('planning'),
+                                width: 200,
+                                height: 200,
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) => Container(
+                                  width: 200,
+                                  height: 200,
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                                    borderRadius: BorderRadius.circular(DesignTokens.radiusM),
+                                  ),
+                                  child: const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                ),
+                                errorWidget: (context, url, error) => Icon(
+                                  Icons.calendar_today_outlined,
+                                  size: 64,
+                                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                ),
+                              ),
                             ),
                             const SizedBox(height: DesignTokens.spacingL),
                             Text(
                               'No plans for this date',
                               style: DesignTokens.titleStyle.copyWith(
-                                color: Colors.grey[600],
+                                color: Theme.of(context).colorScheme.onSurfaceVariant,
                               ),
                             ),
                             const SizedBox(height: DesignTokens.spacingM),
@@ -137,22 +169,22 @@ class PlanningView extends GetView<PlanningController> {
                               margin: const EdgeInsets.symmetric(vertical: DesignTokens.spacingL),
                               padding: const EdgeInsets.all(DesignTokens.spacingL),
                               decoration: BoxDecoration(
-                                gradient: DesignTokens.planningGradient,
-                                borderRadius: BorderRadius.circular(DesignTokens.radiusL),
-                                boxShadow: DesignTokens.softShadow,
+                          gradient: DesignTokens.planningGradient(context),
+                          borderRadius: BorderRadius.circular(DesignTokens.radiusL),
+                          boxShadow: DesignTokens.softShadow(context),
                               ),
                               child: Column(
                                 children: [
-                                  const Icon(
+                                  Icon(
                                     Icons.checklist,
-                                    color: Colors.white,
+                                    color: Theme.of(context).colorScheme.app.textOnGradient,
                                     size: 32,
                                   ),
                                   const SizedBox(height: DesignTokens.spacingM),
                                   Text(
                                     'Get Started',
                                     style: DesignTokens.titleStyle.copyWith(
-                                      color: Colors.white,
+                                      color: Theme.of(context).colorScheme.app.textOnGradient,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -160,7 +192,7 @@ class PlanningView extends GetView<PlanningController> {
                                   Text(
                                     'Import daily checklist (morning & night routines) from the cheatsheet',
                                     style: DesignTokens.bodyStyle.copyWith(
-                                      color: Colors.white70,
+                                      color: Theme.of(context).colorScheme.app.textOnGradientSecondary,
                                     ),
                                     textAlign: TextAlign.center,
                                   ),
@@ -170,9 +202,15 @@ class PlanningView extends GetView<PlanningController> {
                                       await controller.importDailyChecklist();
                                       if (context.mounted) {
                                         ScaffoldMessenger.of(context).showSnackBar(
-                                          const SnackBar(
-                                            content: Text('Daily checklist imported!'),
-                                            duration: Duration(seconds: 2),
+                                          SnackBar(
+                                            content: const Text('Daily checklist imported!'),
+                                            duration: const Duration(seconds: 2),
+                                            behavior: SnackBarBehavior.floating,
+                                            margin: EdgeInsets.only(
+                                              bottom: MediaQuery.of(context).size.height - 120,
+                                              left: 16,
+                                              right: 16,
+                                            ),
                                           ),
                                         );
                                       }
@@ -180,8 +218,8 @@ class PlanningView extends GetView<PlanningController> {
                                     icon: const Icon(Icons.download),
                                     label: const Text('Import Daily Checklist'),
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.white,
-                                      foregroundColor: const Color(0xFFFFB36B),
+                                      backgroundColor: Theme.of(context).colorScheme.app.textOnGradient,
+                                      foregroundColor: Theme.of(context).colorScheme.app.planningPrimary,
                                       padding: const EdgeInsets.symmetric(
                                         horizontal: DesignTokens.spacingL,
                                         vertical: DesignTokens.spacingM,
@@ -195,39 +233,14 @@ class PlanningView extends GetView<PlanningController> {
                             Text(
                               'Or tap + to add plans manually',
                               style: DesignTokens.bodyStyle.copyWith(
-                                color: Colors.grey[500],
+                                color: Theme.of(context).colorScheme.onSurfaceVariant,
                               ),
                             ),
                           ],
                         ),
                       ),
                     )
-                  : ListView.builder(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: DesignTokens.spacingL,
-                      ),
-                      itemCount: plansForDate.length,
-                      itemBuilder: (context, index) {
-                        final item = plansForDate[index];
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: DesignTokens.spacingM),
-                          child: PlanCard(
-                            title: item.title,
-                            time: item.time,
-                            category: item.category,
-                            isCompleted: item.status.name == 'completed',
-                            index: index,
-                            onTap: () {
-                              if (item.status.name == 'pending') {
-                                controller.markCompleted(item.id);
-                              } else {
-                                _showEditPlanItemDialog(context, item);
-                              }
-                            },
-                          ),
-                        );
-                      },
-                    ),
+                  : _buildGroupedPlansList(context, selectedDate),
             ),
           ],
         );
@@ -238,62 +251,83 @@ class PlanningView extends GetView<PlanningController> {
   void _showAddPlanItemDialog(BuildContext context) {
     final titleController = TextEditingController();
     final timeController = TextEditingController();
-    final categoryController = TextEditingController();
+    String? selectedCategory;
 
     Get.dialog(
-      AlertDialog(
-        title: const Text('Add Plan Item'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: titleController,
-              decoration: const InputDecoration(
-                labelText: 'Title',
-                hintText: 'e.g., Gym workout',
-              ),
+      StatefulBuilder(
+        builder: (context, setState) {
+          return AlertDialog(
+            title: const Text('Add Plan Item'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: titleController,
+                  decoration: const InputDecoration(
+                    labelText: 'Title',
+                    hintText: 'e.g., Brush teeth',
+                  ),
+                ),
+                const SizedBox(height: DesignTokens.spacingM),
+                TextField(
+                  controller: timeController,
+                  decoration: const InputDecoration(
+                    labelText: 'Time (optional)',
+                    hintText: 'e.g., 9:00 AM or Morning',
+                  ),
+                ),
+                const SizedBox(height: DesignTokens.spacingM),
+                DropdownButtonFormField<String>(
+                  value: selectedCategory,
+                  decoration: const InputDecoration(
+                    labelText: 'Category (optional)',
+                    hintText: 'Select a category',
+                  ),
+                  items: [
+                    const DropdownMenuItem<String>(
+                      value: null,
+                      child: Text('None'),
+                    ),
+                    ...PlanningController.planCategories.map((category) {
+                      return DropdownMenuItem<String>(
+                        value: category,
+                        child: Text(category),
+                      );
+                    }),
+                  ],
+                  onChanged: (value) {
+                    setState(() {
+                      selectedCategory = value;
+                    });
+                  },
+                ),
+              ],
             ),
-            const SizedBox(height: DesignTokens.spacingM),
-            TextField(
-              controller: timeController,
-              decoration: const InputDecoration(
-                labelText: 'Time (optional)',
-                hintText: 'e.g., 10:00 AM',
+            actions: [
+              TextButton(
+                onPressed: () => Get.back(),
+                child: const Text('Cancel'),
               ),
-            ),
-            const SizedBox(height: DesignTokens.spacingM),
-            TextField(
-              controller: categoryController,
-              decoration: const InputDecoration(
-                labelText: 'Category (optional)',
-                hintText: 'e.g., Fitness',
+              ElevatedButton(
+                onPressed: () {
+                  if (titleController.text.isNotEmpty) {
+                    final selectedDate = controller.selectedDate.value;
+                    final item = PlanItem(
+                      id: DateTime.now().millisecondsSinceEpoch.toString(),
+                      title: titleController.text,
+                      date: selectedDate,
+                      time: timeController.text.isEmpty ? null : timeController.text,
+                      category: selectedCategory ?? '',
+                    );
+                    controller.addPlanItem(item);
+                    Get.back();
+                  }
+                },
+                child: const Text('Add'),
               ),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              if (titleController.text.isNotEmpty) {
-                final selectedDate = controller.selectedDate.value;
-                final item = PlanItem(
-                  id: DateTime.now().millisecondsSinceEpoch.toString(),
-                  title: titleController.text,
-                  date: selectedDate,
-                  time: timeController.text.isEmpty ? null : timeController.text,
-                  category: categoryController.text,
-                );
-                controller.addPlanItem(item);
-                Get.back();
-              }
-            },
-            child: const Text('Add'),
-          ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }
@@ -301,49 +335,221 @@ class PlanningView extends GetView<PlanningController> {
   void _showEditPlanItemDialog(BuildContext context, PlanItem item) {
     final titleController = TextEditingController(text: item.title);
     final timeController = TextEditingController(text: item.time ?? '');
-    final categoryController = TextEditingController(text: item.category);
+    String? selectedCategory = item.category.isEmpty ? null : item.category;
 
     Get.dialog(
-      AlertDialog(
-        title: const Text('Edit Plan Item'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: titleController,
-              decoration: const InputDecoration(labelText: 'Title'),
+      StatefulBuilder(
+        builder: (context, setState) {
+          return AlertDialog(
+            title: const Text('Edit Plan Item'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: titleController,
+                  decoration: const InputDecoration(labelText: 'Title'),
+                ),
+                const SizedBox(height: DesignTokens.spacingM),
+                TextField(
+                  controller: timeController,
+                  decoration: const InputDecoration(
+                    labelText: 'Time',
+                    hintText: 'e.g., 9:00 AM or Morning',
+                  ),
+                ),
+                const SizedBox(height: DesignTokens.spacingM),
+                DropdownButtonFormField<String>(
+                  value: selectedCategory,
+                  decoration: const InputDecoration(
+                    labelText: 'Category',
+                    hintText: 'Select a category',
+                  ),
+                  items: [
+                    const DropdownMenuItem<String>(
+                      value: null,
+                      child: Text('None'),
+                    ),
+                    ...PlanningController.planCategories.map((category) {
+                      return DropdownMenuItem<String>(
+                        value: category,
+                        child: Text(category),
+                      );
+                    }),
+                  ],
+                  onChanged: (value) {
+                    setState(() {
+                      selectedCategory = value;
+                    });
+                  },
+                ),
+              ],
             ),
-            const SizedBox(height: DesignTokens.spacingM),
-            TextField(
-              controller: timeController,
-              decoration: const InputDecoration(labelText: 'Time'),
-            ),
-            const SizedBox(height: DesignTokens.spacingM),
-            TextField(
-              controller: categoryController,
-              decoration: const InputDecoration(labelText: 'Category'),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              final updated = item.copyWith(
-                title: titleController.text,
-                time: timeController.text.isEmpty ? null : timeController.text,
-                category: categoryController.text,
-              );
-              controller.updatePlanItem(updated);
-              Get.back();
-            },
-            child: const Text('Save'),
-          ),
-        ],
+            actions: [
+              TextButton(
+                onPressed: () => Get.back(),
+                child: const Text('Cancel'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  final updated = item.copyWith(
+                    title: titleController.text,
+                    time: timeController.text.isEmpty ? null : timeController.text,
+                    category: selectedCategory ?? '',
+                  );
+                  controller.updatePlanItem(updated);
+                  Get.back();
+                },
+                child: const Text('Save'),
+              ),
+            ],
+          );
+        },
       ),
     );
+  }
+
+  Widget _buildGroupedPlansList(BuildContext context, DateTime selectedDate) {
+    final groupedPlans = controller.getPlansGroupedByTime(selectedDate);
+    final sessionOrder = controller.getSessionOrder();
+    
+    // Get all session keys, prioritizing ordered sessions, then others
+    final orderedSessions = <String>[];
+    final otherSessions = <String>[];
+    
+    for (final session in sessionOrder) {
+      if (groupedPlans.containsKey(session)) {
+        orderedSessions.add(session);
+      }
+    }
+    
+    for (final session in groupedPlans.keys) {
+      if (!sessionOrder.contains(session)) {
+        otherSessions.add(session);
+      }
+    }
+    
+    final allSessions = [...orderedSessions, ...otherSessions];
+    
+    if (allSessions.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return ListView.builder(
+      padding: const EdgeInsets.symmetric(
+        horizontal: DesignTokens.spacingL,
+        vertical: DesignTokens.spacingM,
+      ),
+      itemCount: allSessions.length,
+      itemBuilder: (context, sessionIndex) {
+        final session = allSessions[sessionIndex];
+        final items = groupedPlans[session]!;
+        
+        return Padding(
+          padding: EdgeInsets.only(
+            top: sessionIndex > 0 ? DesignTokens.spacingL : 0,
+            bottom: DesignTokens.spacingM,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Session Header
+              Padding(
+                padding: const EdgeInsets.only(
+                  bottom: DesignTokens.spacingM,
+                  left: DesignTokens.spacingS,
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      _getSessionIcon(session),
+                      size: 20,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    const SizedBox(width: DesignTokens.spacingS),
+                    Text(
+                      session,
+                      style: DesignTokens.titleStyle.copyWith(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                    const SizedBox(width: DesignTokens.spacingS),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: DesignTokens.spacingS,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(DesignTokens.radiusM),
+                      ),
+                      child: Text(
+                        '${items.length}',
+                        style: DesignTokens.captionStyle.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              // Grouped Cards Container
+              Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(DesignTokens.radiusL),
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.outline.withOpacity(0.2),
+                    width: 1,
+                  ),
+                ),
+                padding: const EdgeInsets.all(DesignTokens.spacingM),
+                child: Column(
+                  children: items.asMap().entries.map((entry) {
+                    final itemIndex = entry.key;
+                    final item = entry.value;
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        bottom: itemIndex < items.length - 1 ? DesignTokens.spacingM : 0,
+                      ),
+                      child: PlanCard(
+                        title: item.title,
+                        time: item.time,
+                        category: item.category,
+                        isCompleted: item.status.name == 'completed',
+                        index: sessionIndex * 100 + itemIndex, // Unique index for animations
+                        onTap: () {
+                          Get.to(() => PlanItemDetailView(item: item));
+                        },
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  IconData _getSessionIcon(String session) {
+    switch (session.toLowerCase()) {
+      case 'morning':
+        return Icons.wb_sunny;
+      case 'afternoon':
+        return Icons.wb_twilight;
+      case 'evening':
+        return Icons.nightlight;
+      case 'night':
+      case 'late night':
+        return Icons.bedtime;
+      case 'unscheduled':
+        return Icons.schedule;
+      default:
+        return Icons.access_time;
+    }
   }
 }

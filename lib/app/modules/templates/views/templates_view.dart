@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import '../controllers/templates_controller.dart';
 import '../../../core/widgets/gradient_card.dart';
 import '../../../core/widgets/bottom_nav_bar.dart';
+import '../../../core/widgets/loading_widget.dart';
 import '../../../core/theme/design_tokens.dart';
+import '../../../core/services/unsplash_service.dart';
 import '../../../data/models/quest_template.dart';
 import '../../../data/models/focus_area.dart';
 import '../../../routes/app_routes.dart' show Routes;
@@ -25,7 +28,7 @@ class TemplatesView extends GetView<TemplatesController> {
       ),
       body: Obx(() {
         if (controller.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
+          return const LoadingWidget();
         }
 
         return Column(
@@ -79,10 +82,30 @@ class TemplatesView extends GetView<TemplatesController> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
-                            Icons.description_outlined,
-                            size: 64,
-                            color: Colors.grey[400],
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(DesignTokens.radiusM),
+                            child: CachedNetworkImage(
+                              imageUrl: UnsplashService.getEmptyStateImageUrlForScreen('templates'),
+                              width: 200,
+                              height: 200,
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => Container(
+                                width: 200,
+                                height: 200,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  borderRadius: BorderRadius.circular(DesignTokens.radiusM),
+                                ),
+                                child: const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              ),
+                              errorWidget: (context, url, error) => Icon(
+                                Icons.description_outlined,
+                                size: 64,
+                                color: Colors.grey[400],
+                              ),
+                            ),
                           ),
                           const SizedBox(height: DesignTokens.spacingL),
                           Text(
@@ -115,7 +138,7 @@ class TemplatesView extends GetView<TemplatesController> {
   }
 
   Widget _buildTemplateCard(BuildContext context, QuestTemplate template) {
-    final gradient = _getGradientForFocusArea(template.focusAreaId);
+    final gradient = _getGradientForFocusArea(context, template.focusAreaId);
 
     return GradientCard(
       gradient: gradient,
@@ -204,16 +227,16 @@ class TemplatesView extends GetView<TemplatesController> {
     );
   }
 
-  LinearGradient _getGradientForFocusArea(FocusArea area) {
+  LinearGradient _getGradientForFocusArea(BuildContext context, FocusArea area) {
     switch (area) {
       case FocusArea.clothes:
-        return DesignTokens.clothesGradient;
+        return DesignTokens.clothesGradient(context);
       case FocusArea.skincare:
-        return DesignTokens.skincareGradient;
+        return DesignTokens.skincareGradient(context);
       case FocusArea.fitness:
-        return DesignTokens.fitnessGradient;
+        return DesignTokens.fitnessGradient(context);
       case FocusArea.cooking:
-        return DesignTokens.cookingGradient;
+        return DesignTokens.cookingGradient(context);
     }
   }
 }
